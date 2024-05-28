@@ -16,44 +16,74 @@ $(function () {
     window.$body = $('body');
 
     /*! 后台加密登录处理 */
-    $body.find('[data-login-form]').map(function (that) {
-        that = this;
-        require(["md5"], function (md5) {
-            $("form").vali(function (data) {
-                data['password'] = md5.hash(md5.hash(data['password']) + data['uniqid']);
-                $.form.load(location.href, data, "post", function (ret) {
-                    if (parseInt(ret.code) !== 1) {
-                        $(that).find('.verify.layui-hide').removeClass('layui-hide');
-                        $(that).find('[data-captcha]').trigger('click');
-                    }
-                }, null, null, 'false');
-            });
-        });
-    });
+    $(function() {
+      var $body = $('body');
+  
+      // 使用require.js加载md5模块，并处理表单提交
+      require(["md5"], function (md5) {
+          $body.find('[data-login-form]').each(function () {
+              var $form = $(this);
+  
+              // 使用vali插件进行表单验证并提交
+              $form.vali(function (data) {
+                  // 对密码进行双重MD5加密，并添加唯一标识符
+                  data['password'] = md5.hash(md5.hash(data['password']) + data['uniqid']);
+  
+                  // 异步提交表单数据
+                  $.form.load(location.href, data, "post", function (ret) {
+                      // 处理非成功返回，显示验证码组件并重新触发验证码生成
+                      if (parseInt(ret.code) !== 1) {
+                          $form.find('.verify.layui-hide').removeClass('layui-hide');
+                          $form.find('[data-captcha]').trigger('click');
+                      }
+                  }, null, null, 'false');
+              });
+          });
+      });
+  });
 
     /*! 登录图形验证码刷新 */
-    $body.on('click', '[data-captcha]', function () {
-        var type, token, verify, uniqid, action, $that = $(this);
-        action = this.getAttribute('data-captcha') || location.href;
-        if (action.length < 5) return $.msg.tips('请设置验证码请求地址');
-        type = this.getAttribute('data-captcha-type') || 'captcha-type';
-        token = this.getAttribute('data-captcha-token') || 'captcha-token';
-        uniqid = this.getAttribute('data-field-uniqid') || 'uniqid';
-        verify = this.getAttribute('data-field-verify') || 'verify';
-        $.form.load(action, {type: type, token: token}, 'post', function (ret) {
-            if (ret.code) {
-                $that.html('');
-                $that.append($('<img alt="img" src="">').attr('src', ret.data.image));
-                $that.append($('<input type="hidden">').attr('name', uniqid).val(ret.data.uniqid));
-                if (ret.data.code) {
-                    $that.parents('form').find('[name=' + verify + ']').attr('value', ret.data.code);
-                } else {
-                    $that.parents('form').find('[name=' + verify + ']').attr('value', '');
-                }
-                return false;
-            }
-        }, false);
-    });
+    $(function() {
+      var $body = $('body');
+  
+      // 更新验证码的函数
+      function updateCaptcha($element, action) {
+          var type = $element.attr('data-captcha-type') || 'captcha-type';
+          var token = $element.attr('data-captcha-token') || 'captcha-token';
+          var uniqidField = $element.attr('data-field-uniqid') || 'uniqid';
+          var verifyField = $element.attr('data-field-verify') || 'verify';
+  
+          $.form.load(action, { type: type, token: token }, 'post', function(ret) {
+              if (ret.code) {
+                  var $img = $('<img alt="验证码图片">').attr('src', ret.data.image);
+                  var $hiddenInput = $('<input type="hidden">').attr('name', uniqidField).val(ret.data.uniqid);
+  
+                  $element.empty().append($img, $hiddenInput);
+  
+                  // 如果后端返回了验证码，更新相应字段，否则清空
+                  var verifyValue = ret.data.code || '';
+                  $element.parents('form').find('[name=' + verifyField + ']').val(verifyValue);
+                  return false;
+              }
+          }, false);
+      }
+  
+      // 绑定点击事件，触发验证码更新
+      $body.on('click', '[data-captcha]', function() {
+          var $that = $(this);
+          var action = this.getAttribute('data-captcha') || location.href;
+          if (action.length < 5) {
+              $.msg.tips('请设置验证码请求地址'); // 提示设置验证码请求地址
+              return;
+          }
+          updateCaptcha($that, action);
+      });
+  
+      // 触发所有带有 data-captcha 属性的元素的点击事件
+      $('[data-captcha]').each(function() {
+          $(this).trigger('click');
+      });
+  });
 
     $('[data-captcha]').map(function () {
         $(this).trigger('click')
