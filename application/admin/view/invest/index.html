@@ -1,0 +1,51 @@
+{extend name='admin@main'}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='invest/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='text-left nowrap' width="40%">投资信息</th>
+            <th class='text-left nowrap' width="15%">投资人</th>
+            <th class='text-left nowrap' width="15%">投资数据</th>
+            <th class="text-left nowrap" width="15%">投资时间</th>
+            <th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-left' style="max-width: 260px;overflow: hidden">
+                项目名称：{$vo.title|default='--'}<br>
+                合同编号：{$vo.number|default='--'}<br>
+                还款类型：{$vo.type2|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                投资人ID：{$vo.uid|default='--'}<br>
+                投资人姓名：{$vo.name|default='--'}<br>
+                投资人电话：{$vo.phone|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                投资金额：{$vo.money|default='--'} 元<br>
+                费率：{$vo.rate|default='--'} %<br>
+                期限：{$vo.day|default='--'} 天<br>
+            </td>
+            <td class='text-left nowrap'>
+                投资时间：{$vo.time|default='--'}<br>
+                <!--结束时间：{$vo.time2|default='--'}<br>-->
+            </td>
+            <td class='text-left nowrap'>
+                {if auth("admin/invest_list/detail")}
+                <a data-title="查看详情" class="layui-btn layui-btn-sm" data-open='{:url("admin/invest_list/index")}?i_iid={$vo.id}'>查看详情</a>
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

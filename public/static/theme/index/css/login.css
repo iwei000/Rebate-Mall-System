@@ -1,0 +1,21 @@
+ .container { width: 100%; height: 100%; background-image: url(../img/login.jpg); background-size: 100% 100%;}
+.header { background-color: rgba(0,0,0,0);}
+.logo { width: 4rem; margin: 0 auto;} 
+.logo img { width: 100%; height: auto;} 
+.main { padding: .4rem .6rem .4rem;}
+.tip { width: 6.7rem; font-size: .26rem; line-height: .4rem; color: #4f5ffa; margin-top: .2rem; margin-left: -.18rem; margin-bottom: .66rem } 
+
+.container .input-group { width: 100%; height: 1.08rem;  line-height: 1.08rem; border-radius: 4px; background-color: rgba(255,255,255,0.7); margin-bottom: .4rem;}
+.container .input-group .iconfont { color: #4f5ffa; font-size: .32rem; float: left; margin-left: .2rem; margin-right: 0.2rem;}
+.container .input-group span { display: inline-block; width: 1.1rem; color: #fff; font-size: .26rem; float: left;}
+.container .input-group input { height: .4rem; border: 0; background-color: transparent; border-radius: 2px; padding: 0; font-size: .26rem; line-height: .36rem; margin-top: .34rem; outline: none; float: left;}
+.container .input-group input::placeholder { color: #000;}
+.container .code-group { display: flex; display: -webkit-flex;}
+.container .code-group .input-group { width: 100%;}
+.container .code-group .input-group input { width: 1.56rem;}
+.container .code-group .input-group .code { width: 1.98rem; height: .68rem; line-height: 0; float: right; margin-top: .2rem; margin-right: .2rem;}
+.container .code-group .input-group .code img { width: 100%; height: auto; }
+.container .login { width: 100%; height: .88rem; background-color: #4f5ffa; border-radius: 10px; font-size: .34rem; color: #fff; line-height: .88rem; text-align: center; margin-top: .8rem; }
+.container .bottom { width: 100%; color: #fff; font-size: .28rem; line-height: .42rem; text-align: center; margin-top: 1rem;}
+.container .bottom a { display: inline-block; color: #4f5ffa; }
+.icon-identifyingCode { font-size: .24rem !important; margin-right: 0.2rem !important;}

@@ -1,0 +1,61 @@
+{extend name='admin@main'}
+
+{block name="button"}
+{if auth("admin/article_type/add")}
+<button data-modal='{:url("add")}' data-title="添加文章分类" class='layui-btn layui-btn-sm layui-btn-primary'>添加文章分类</button>
+{/if}
+{if auth("remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些文章分类吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除文章分类</button>
+{/if}
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='article_type/class_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='list-table-sort-td'>
+                <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
+            </th>
+            <th class='text-left nowrap'>分类名称</th>
+            <th class="text-center">添加时间</th>
+            <th class="text-center"></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='list-table-sort-td'>
+                <input data-action-blur="{:request()->url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input">
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.name|default=''}
+            </td>
+            <td class='text-center nowrap'>{$vo.add_time}</td>
+            <td class='text-left nowrap'>
+
+                {if auth("admin/article_type/edit")}
+                <a data-title="编辑分类" class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                {/if}
+
+                {if auth("admin/article_type/remove")}
+                <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                {/if}
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

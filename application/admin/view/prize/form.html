@@ -1,0 +1,270 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+<form onsubmit="return false;"  data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">抽奖配置</li>
+            <li>一等奖</li>
+            <li>二等奖</li>
+            <li>三等奖</li>
+            <li>四等奖</li>
+            <li>五等奖</li>
+            <li>六等奖</li>
+        </ul>
+        <div class="layui-tab-content" style="">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">结束时间</span>
+                            <input name="endtime" class="layui-input" placeholder="请输入结束时间" value="{$vo.endtime|default=''}" required data-date-input="datetime">
+                        </label>
+                    </div>
+                    <div class="layui-form-item block">
+                        <span class="label-required-prev color-green">活动规则</span>
+                        <textarea name="rule" required>{$vo.rule|default=''|raw}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品名称</span>
+                            <input name="name1" class="layui-input" placeholder="请输入奖品名称" value="{$vo.name1|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品类型</span>
+                            <select class="layui-select" name="type1">
+                                {foreach ['1'=>'现金','2'=>'实物'] as $k=>$v}
+                                <!--{eq name='$vo.type1' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖金（如为实物则选填）</span>
+                            <input name="money1" class="layui-input" placeholder="请输入奖金" value="{$vo.money1|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">概率</span>
+                            <input name="odds1" class="layui-input" placeholder="请输入概率" value="{$vo.odds1|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">奖品描述</span>
+                            <input name="reason1" required class="layui-input" placeholder="请输入奖品描述" value="{$vo.reason1|default='一等奖'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品名称</span>
+                            <input name="name2" class="layui-input" placeholder="请输入奖品名称" value="{$vo.name2|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品类型</span>
+                            <select class="layui-select" name="type2">
+                                {foreach ['1'=>'现金','2'=>'实物'] as $k=>$v}
+                                <!--{eq name='$vo.type2' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖金（如为实物则选填）</span>
+                            <input name="money2" class="layui-input" placeholder="请输入奖金" value="{$vo.money2|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">概率</span>
+                            <input name="odds2" class="layui-input" placeholder="请输入概率" value="{$vo.odds2|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">奖品描述</span>
+                            <input name="reason2" required class="layui-input" placeholder="请输入奖品描述" value="{$vo.reason2|default='二等奖'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品名称</span>
+                            <input name="name3" class="layui-input" placeholder="请输入奖品名称" value="{$vo.name3|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品类型</span>
+                            <select class="layui-select" name="type3">
+                                {foreach ['1'=>'现金','2'=>'实物'] as $k=>$v}
+                                <!--{eq name='$vo.type3' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖金（如为实物则选填）</span>
+                            <input name="money3" class="layui-input" placeholder="请输入奖金" value="{$vo.money3|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">概率</span>
+                            <input name="odds3" class="layui-input" placeholder="请输入概率" value="{$vo.odds3|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">奖品描述</span>
+                            <input name="reason3" required class="layui-input" placeholder="请输入奖品描述" value="{$vo.reason3|default='三等奖'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品名称</span>
+                            <input name="name4" class="layui-input" placeholder="请输入奖品名称" value="{$vo.name4|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品类型</span>
+                            <select class="layui-select" name="type4">
+                                {foreach ['1'=>'现金','2'=>'实物'] as $k=>$v}
+                                <!--{eq name='$vo.type4' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖金（如为实物则选填）</span>
+                            <input name="money4" class="layui-input" placeholder="请输入奖金" value="{$vo.money4|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">概率</span>
+                            <input name="odds4" class="layui-input" placeholder="请输入概率" value="{$vo.odds4|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">奖品描述</span>
+                            <input name="reason4" required class="layui-input" placeholder="请输入奖品描述" value="{$vo.reason4|default='四等奖'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品名称</span>
+                            <input name="name5" class="layui-input" placeholder="请输入奖品名称" value="{$vo.name5|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品类型</span>
+                            <select class="layui-select" name="type5">
+                                {foreach ['1'=>'现金','2'=>'实物'] as $k=>$v}
+                                <!--{eq name='$vo.type5' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖金（如为实物则选填）</span>
+                            <input name="money5" class="layui-input" placeholder="请输入奖金" value="{$vo.money5|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">概率</span>
+                            <input name="odds5" class="layui-input" placeholder="请输入概率" value="{$vo.odds5|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">奖品描述</span>
+                            <input name="reason5" required class="layui-input" placeholder="请输入奖品描述" value="{$vo.reason5|default='五等奖'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品名称</span>
+                            <input name="name6" class="layui-input" placeholder="请输入奖品名称" value="{$vo.name6|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖品类型</span>
+                            <select class="layui-select" name="type6">
+                                {foreach ['1'=>'现金','2'=>'实物'] as $k=>$v}
+                                <!--{eq name='$vo.type6' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">奖金（如为实物则选填）</span>
+                            <input name="money6" class="layui-input" placeholder="请输入奖金" value="{$vo.money6|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">概率</span>
+                            <input name="odds6" class="layui-input" placeholder="请输入概率" value="{$vo.odds6|default=''}" required>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">奖品描述</span>
+                            <input name="reason6" required class="layui-input" placeholder="请输入奖品描述" value="{$vo.reason6|default='六等奖'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn" type="submit">保存设置</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="rule"]', {height: 500});
+    })
+</script>
+{/block}

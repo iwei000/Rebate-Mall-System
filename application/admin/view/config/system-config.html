@@ -1,0 +1,136 @@
+<form onsubmit="return false" data-auto="true" action="{:url()}" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body padding-left-40">
+
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">网站名称 Website</span>
+                <input name="site_name" required placeholder="请输入网站名称" value="{:sysconf('site_name')}" class="layui-input">
+            </label>
+            <p class="help-block">网站名称，将在浏览器的标签上显示名称</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">管理程序名称 Name</span>
+                <input name="app_name" required placeholder="请输入程序名称" value="{:sysconf('app_name')}" class="layui-input">
+            </label>
+            <p class="help-block">管理程序名称，在后台左上角标题处理显示</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">快递接口 APPCODE</span>
+                <input name="kuaidi_key" placeholder="请输入快递接口 APPCODE" value="{:sysconf('kuaidi_key')}" class="layui-input">
+            </label>
+            <p class="help-block">快递接口api，用于物流查询。购买地址<a href="https://market.aliyun.com/products/56928004/cmapi021863.html" target="_blank">【阿里云市场】</a></p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">发送短信接口</span>
+                <select required name="sms_api_type" class="layui-select" lay-search>
+                    {foreach [1=>'云片',2=>'网建',3=>'短信宝',4=>'阿里云短信'] as $key=>$type}
+                    {if sysconf('sms_api_type') eq $key}
+                    <option selected value="{$key}">{$type}</option>
+                    {else}
+                    <option value="{$key}">{$type}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <p class="help-block">短信宝【<a href="http://www.smsbao.com/reg?r=11361" target="_blank">官网</a>】 | 云片短信【<a href="https://www.yunpian.com/" target="_blank">官网</a>】 | 网建短信【<a href="http://www.webchinese.com.cn/" target="_blank">官网</a>】 | 阿里云短信【<a href="https://www.aliyun.com/product/sms?userCode=nakcg7cg" target="_blank">官网</a>】</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">阿里云短信AccessKey ID</span>
+                <input name="aliyun_key_id" placeholder="请输入阿里云短信AccessKey ID" value="{:sysconf('aliyun_key_id')}" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">阿里云短信AccessKey Secret</span>
+                <input name="aliyun_key_secret" placeholder="请输入阿里云短信AccessKey Secret" value="{:sysconf('aliyun_key_secret')}" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">短信宝账号</span>
+                <input name="smsbao_user" placeholder="请输入短信宝账号" value="{:sysconf('smsbao_user')}" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">短信宝密码</span>
+                <input name="smsbao_pass" placeholder="请输入短信宝密码" value="{:sysconf('smsbao_pass')}" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">网建短信账号</span>
+                <input name="wj_user" placeholder="请输入网建短信账号" value="{:sysconf('wj_user')}" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">网建短信秘钥</span>
+                <input name="wj_key" placeholder="请输入网建短信秘钥" value="{:sysconf('wj_key')}" class="layui-input">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">云片验证类 APIKEY</span>
+                <input name="yunpian_key" placeholder="请输入云片验证类APPKEY" value="{:sysconf('yunpian_key')}" class="layui-input">
+            </label>
+            <p class="help-block">云片验证类APPKEY，用于注册验证</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">云片通知类 APIKEY</span>
+                <input name="yunpian_tkey" placeholder="请输入云片通知类APPKEY" value="{:sysconf('yunpian_tkey')}" class="layui-input">
+            </label>
+            <p class="help-block">云片通知类 APIKEY</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">短信签名</span>
+                <input name="yunpian_sign" placeholder="请输入短信签名" value="{:sysconf('yunpian_sign')}" class="layui-input">
+            </label>
+            <p class="help-block">短信签名，可以是公司简称、网站简称、注册商标</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">管理程序版本 Version</span>
+                <input name="app_version" placeholder="请输入程序版本" value="{:sysconf('app_version')}" class="layui-input">
+            </label>
+            <p class="help-block">管理程序版本，在后台左上角标题处理显示</p>
+        </div>
+        <div class="layui-form-item">
+            <span class="color-green font-w7">浏览器图标 Browser</span>
+            <div class="relative block">
+                <img alt="icon" data-tips-image style="height:auto;max-height:42px;min-width:42px" src="{:sysconf('site_icon')}"/>
+                <input type="hidden" name="site_icon" onchange="$(this).prev('img').attr('src', this.value)" value="{:sysconf('site_icon')}" class="layui-input">
+                <a class="margin-left-10" data-file="btn" data-type="ico,png" data-field="site_icon">上传图片</a>
+                <p class="help-block">建议上传 ICO 图标的尺寸为 128x128 <a href="http://www.favicon-icon-generator.com" target="_blank">ICON在线制作</a></p>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">网站备案号 Miitbeian</span>
+                <input name="miitbeian" required placeholder="请输入网站备案号" value="{:sysconf('miitbeian')}" class="layui-input">
+            </label>
+            <p class="help-block">网站备案号，可以在<a target="_blank" href="http://beian.miit.gov.cn">备案管理中心</a>查询获取，将在登录页面下面显示</p>
+        </div>
+        <div class="layui-form-item">
+            <label class="relative block">
+                <span class="color-green font-w7">网站版权信息 Copyright</span>
+                <input name="site_copy" required placeholder="请输入版权信息" value="{:sysconf('site_copy')}" class="layui-input">
+            </label>
+            <p class="help-block">网站版权信息，在后台登录页面显示版本信息并链接到备案到信息备案管理系统</p>
+        </div>
+
+        <div class="hr-line-dashed"></div>
+
+        <div class="layui-form-item text-center">
+            <button class="layui-btn" type="submit">保存配置</button>
+            <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消修改吗？" data-close>取消修改</button>
+        </div>
+    </div>
+<script>form.render()</script>
+</form>

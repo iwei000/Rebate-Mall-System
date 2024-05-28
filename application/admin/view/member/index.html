@@ -1,0 +1,64 @@
+{extend name='admin@main'}
+
+{block name="button"}
+{if auth("admin/member/add")}
+<button data-modal='{:url("add")}' data-title="添加会员组" class='layui-btn layui-btn-sm layui-btn-primary'>添加会员组</button>
+{/if}
+<!--{if auth("remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些用户组吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除用户组</button>
+{/if}-->
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-center nowrap'>会员组编号</th>
+            <th class="text-center">等级名称</th>
+            <th class="text-center">成长值限制</th>
+            <th class="text-center">加息率（%）</th>
+            <th class="text-center">折扣（%）</th>
+            <th class="text-center"></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.id|default=''}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.name|default=''}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.value|default=''}
+            </td>
+            <td class='text-center nowrap'>{$vo.rate|default='0'}</td>
+            <td class='text-center nowrap'>
+                {$vo.discount|default=''}
+            </td>
+            <td class='text-center nowrap'>
+                {if auth("admin/member/edit")}
+                <a data-title="编辑商品分类" class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                {/if}
+
+                <!--{if auth("admin/member/remove")}
+                <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                {/if}-->
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

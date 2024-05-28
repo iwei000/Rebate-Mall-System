@@ -1,0 +1,50 @@
+<form onsubmit="return false;" action="{:request()->url()}" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body">
+
+        <div class="layui-row margin-bottom-15">
+            <label class="layui-col-xs2 think-form-label">用户账号</label>
+            <label class="layui-col-xs10">
+                <input name="name" required value='' placeholder="请输入用户账号" class="layui-input">
+            </label>
+        </div>
+
+        <div class="layui-row margin-bottom-15">
+            <label class="layui-col-xs2 think-form-label">增减类型</label>
+            <label class="layui-col-xs10">
+                 <select class="layui-select" name="type" required>
+                    {foreach ['1'=>'增加余额','2'=>'减少余额'] as $k=>$v}
+                    <option value="{$k}">{$v}</option>
+                    {/foreach}
+                </select>
+            </label>
+        </div>
+        
+        <div class="layui-row margin-bottom-15">
+            <label class="layui-col-xs2 think-form-label">增减金额</label>
+            <label class="layui-col-xs10">
+                <input name="money" required value='' placeholder="请输入增减金额（正整数）" class="layui-input">
+            </label>
+        </div>
+        
+        <div class="layui-row margin-bottom-15">
+            <label class="layui-col-xs2 think-form-label">修改理由</label>
+            <label class="layui-col-xs10">
+                <input name="reason" required value='系统操作' placeholder="请输入修改理由" class="layui-input">
+            </label>
+        </div>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

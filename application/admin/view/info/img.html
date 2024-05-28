@@ -1,0 +1,190 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+<form onsubmit="return false;"  data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">系统图片</li>
+            <li>首页弹窗</li>
+            <li>重券活动</li>
+        </ul>
+        <div class="layui-tab-content" style="">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">网站LOGO</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">300x300像素</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center">
+                                    <input name="logo_img" type="hidden" value="{$vo.logo_img|default=''}">
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="logo_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">分享底图（无需二维码，系统自动生成）【<a href="{$vo.login_img|default=''}" target="_blank">点击下载</a>】</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">850x1280像素</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center">
+                                    <input name="login_img" type="hidden" value="{$vo.login_img|default=''}">
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="login_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">公司章</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">500x500像素，png格式</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center">
+                                    <input name="seal_img" type="hidden" value="{$vo.seal_img|default=''}">
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="seal_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">保险章</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">500x500像素，png格式</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center">
+                                    <input name="safe_seal_img" type="hidden" value="{$vo.safe_seal_img|default=''}">
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="safe_seal_img"]').uploadOneImage()</script>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">活动图片</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">活动图片地址</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center"><input name="activity_img" type="hidden" value="{$vo.activity_img|default=''}"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="activity_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="activity_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.activity_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">活动链接</span>
+                            <input name="activity_url" class="layui-input" placeholder="请输入活动链接" value="{$vo.activity_url|default='#'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">活动图片【<a href="{$vo.activity1_img|default=''}" target="_blank">点击下载</a>】</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">活动图片地址</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center"><input name="activity1_img" type="hidden" value="{$vo.activity1_img|default=''}"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="activity1_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="activity1_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.activity1_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">活动详情链接</span>
+                            <input name="activity1_url" class="layui-input" placeholder="请输入活动详情链接" value="{$vo.activity1_url|default='#'}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs6 relative">
+                            <span class="color-green">福利商品1链接</span>
+                            <input name="fuli1" class="layui-input" placeholder="请输入福利商品链接" value="{$vo.fuli1|default='#'}">
+                        </label>
+                        <label class="layui-col-xs6 relative">
+                            <span class="color-green">福利商品2链接</span>
+                            <input name="fuli2" class="layui-input" placeholder="请输入福利商品链接" value="{$vo.fuli2|default='#'}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs6 relative">
+                            <span class="color-green">福利商品3链接</span>
+                            <input name="fuli3" class="layui-input" placeholder="请输入福利商品链接" value="{$vo.fuli3|default='#'}">
+                        </label>
+                        <label class="layui-col-xs6 relative">
+                            <span class="color-green">福利商品4链接</span>
+                            <input name="fuli4" class="layui-input" placeholder="请输入福利商品链接" value="{$vo.fuli4|default='#'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="layui-form-item text-left padding-20">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn" type="submit">保存设置</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

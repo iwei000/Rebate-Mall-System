@@ -1,0 +1,72 @@
+{extend name='admin@main'}
+{block name="button"}
+{if auth("add")}
+<button data-modal='{:url("add")}' data-title="添加银行卡" class='layui-btn layui-btn-sm'>添加银行卡</button>
+{/if}
+{if auth("remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些记录吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除记录</button>
+{/if}
+{/block}
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='bank/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+            </th>
+            <th class='text-center nowrap'>编号</th>
+            <th class='text-center nowrap'>会员ID</th>
+            <th class="text-center nowrap">用户名</th>
+            <th class="text-center nowrap">开户姓名</th>
+            <th class="text-center nowrap">所属银行</th>
+            <th class="text-center nowrap">支行名称</th>
+            <th class="text-center nowrap">银行卡号</th>
+            <th class="text-center nowrap">操作</th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+             <td class='list-table-check-td think-checkbox'>
+                <label><input class="list-check-box" value='{$vo.id}' type='checkbox'></label>
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.id|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.uid|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.phone|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.u_name|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.bank|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.area|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.account|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {if auth("admin/article_type/edit")}
+                <a data-title="编辑银行卡" class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                {/if}
+                {if auth("remove")}
+                <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

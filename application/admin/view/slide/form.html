@@ -1,0 +1,52 @@
+<form onsubmit="return false;" action="{:request()->url()}" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">是否显示</span>
+                <select class="layui-select" name="show" required>
+                    {foreach ['0'=>'隐藏','1'=>'显示'] as $k=>$v}
+                    <!--{eq name='$vo.show' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs8 relative">
+                <span class="color-green">图片链接</span>
+                <input name="url" class="layui-input" placeholder="请输入图片链接" value="{$vo.url|default='#'}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <span class="color-green label-required-prev">图片</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-center">750x300像素</th>
+                </tr>
+                <tr>
+                    <td width="160px" height="80px" class="text-center">
+                        <input name="path" type="hidden" value="{$vo.path|default=''}">
+                    </td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="path"]').uploadOneImage()</script>
+        </div>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

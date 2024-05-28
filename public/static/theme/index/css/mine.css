@@ -1,0 +1,32 @@
+.container { padding: 0; padding-bottom: 1rem;}
+/* top CSS */
+.top { padding: .4rem .4rem .32rem;}
+.top .name { font-size: .26rem; line-height: .36rem; color: #4A4A4A; display: -webkit-flex; display: flex;}
+.top .name .left { color:#FF9966;width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.top .name .right {color:blue; width: 20%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align: right;}
+.top .assets { padding: .4rem .44rem; border-radius: 15px; background-color: #4f5ffa; margin-top: .4rem;} 
+.top .assets .title { font-size: .36rem; line-height: 1;color: #FFF; padding-top: .1rem;} 
+.top .assets .money { font-family: "PingFangSC-Regular"; font-size: .72rem; line-height: 1rem;color: #FFF; padding-top: .3rem;} 
+.top .assets .aslist { margin-top: .28rem; display: -webkit-flex; display: flex;} 
+.top .assets .aslist .item { flex: 1; margin-top: .18rem; height: .6rem; border-right: 1px solid #fff; text-align: center;} 
+.top .assets .aslist .item:last-child { border-right: 0;} 
+.top .assets .aslist .item p { font-family: "PingFangSC-Regular"; font-size: .24rem; line-height: .34rem;color: #FFF; } 
+.top .assets .aslist .item p:first-child { margin-top: -0.1rem; } 
+.top .balance { margin-top: .32rem;} 
+.top .balance .money { font-family: "PingFangSC-Regular"; font-size: .32rem; line-height: .48rem;color: #323232; float: left;} 
+.top .balance .money span { color: #9B9B9B;} 
+.top .balance .recharge { display: inline-block; font-size: .2rem; line-height: .4rem;color: #fff; padding: .04rem .28rem; background-color: #57B8FF; border-radius: .24rem; float: right; margin-left: .4rem;} 
+.top .balance .withdraw { display: inline-block; font-size: .2rem; line-height: .4rem;color: #fff; padding: .04rem .28rem; background-color: #4f5ffa; border-radius: .24rem; float: right; margin-left: .4rem;} 
+.top .balance:after { content:""; clear: both; display: block;}
+/* list CSS */
+.list { padding: 0 .4rem; border-top: .2rem solid #FAFAFA;}
+.list .item { padding-top: .32rem; padding-bottom: .28rem; border-bottom: 1px solid #E9E9E9;}
+.list .item:last-child { border-bottom: 0;}
+.list .item img { width: .32rem; height: .32rem; float: left; margin-left: .12rem; margin-right: .12rem;}
+.list .item span { font-size: .32rem; line-height: 1; color: #4A4A4A; float: left;}
+.list .item .iconfont { font-size: .38rem; line-height: 1; color: #9B9B9B; float: right;}
+.list .item:after { content:""; clear: both; display: block;}
+
+
+
+

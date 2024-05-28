@@ -1,0 +1,277 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+
+<form onsubmit="return false;" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">商品分类</span>
+                <select class="layui-select" required name="class" lay-search>
+                    {foreach $class as $cate}
+                    {if isset($vo.class) and $vo.class eq $cate.id}
+                    <option selected value="{$cate.id}">{$cate.spl|raw}{$cate.name|default=''}</option>
+                    {else}
+                    <option value="{$cate.id}">{$cate.spl|raw}{$cate.name|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs6 relative">
+                <span class="color-green">商品名称</span>
+                <input name="title" required class="layui-input" placeholder="请输入项目名称" value="{$vo.title|default=''}">
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">商品状态</span>
+                <select class="layui-select" name="status" required>
+                    {foreach ['0'=>'下架','1'=>'上架'] as $k=>$v}
+                    <!--{eq name='$vo.status' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">还款方式</span>
+                <select class="layui-select" required name="type" lay-search>
+                    {foreach $type as $cate}
+                    {if isset($vo.type) and $vo.type eq $cate.id}
+                    <option selected value="{$cate.id}">{$cate.name|default=''}</option>
+                    {else}
+                    <option value="{$cate.id}">{$cate.name|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs6 relative">
+                <span class="color-green">担保公司</span>
+                <input name="guarantee" required class="layui-input" placeholder="请输入担保公司" value="{$vo.guarantee|default='香港汇民国际担保有限公司'}">
+            </label>
+            <!--<label class="layui-col-xs6 relative">
+                <span class="color-green">商品描述</span>
+                <input name="desc" required class="layui-input" placeholder="请输入项目描述" value="{$vo.desc|default=''}">
+            </label>-->
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">商品折扣（元）</span>
+                <input name="discount" required class="layui-input" placeholder="请输入商品折扣" value="{$vo.discount|default='0.00'}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">会员专属折扣</span>
+                <select class="layui-select" name="is_special" required>
+                    {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                    <!--{eq name='$vo.is_special' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">展示类型</span>
+                <select class="layui-select" name="index_type" required>
+                    {foreach ['1'=>'系统推荐','2'=>'精选热卖','3'=>'会员专区','4'=>'新人专享'] as $k=>$v}
+                    <!--{eq name='$vo.index_type' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">限制购买次数</span>
+                <input name="num" required class="layui-input" placeholder="请输入最大购买次数" value="{$vo.num|default='1000'}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <!--<label class="layui-col-xs4 relative">
+                <span class="color-green">项目金额（万元）</span>
+                <input name="total" required class="layui-input" placeholder="请输入项目金额（万元）" value="{$vo.total|default='10000000000'}">
+            </label>-->
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">开始时间</span>
+                <input name="time" data-date-input="datetime" required class="layui-input" placeholder="请输入开始时间" value="{$vo.time|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">收益率（%）</span>
+                <input name="rate" required class="layui-input" placeholder="请输入收益率（%）" value="{$vo.rate|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">期限（天）</span>
+                <input name="day" required class="layui-input" placeholder="请输入期限（天）" value="{$vo.day|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">商品金额（元）</span>
+                <input name="min" required class="layui-input" placeholder="请输入商品金额（元）" value="{$vo.min|default=''}">
+            </label>
+            <!--<label class="layui-col-xs4 relative">
+                <span class="color-green">最大购买金额（元）</span>
+                <input name="max" required class="layui-input" placeholder="请输入最大购买金额（元）" value="{$vo.max|default='100000000000'}">
+            </label>-->
+            
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">基础虚拟销量</span>
+                <input name="sales_base" required class="layui-input" placeholder="请输入基础虚拟销量" value="{$vo.sales_base|default='0'}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">每5分钟自动增长销量</span>
+                <input name="auto" class="layui-input" placeholder="请输入每5分钟自动增长销量" value="{$vo.auto|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">上级分润（%）</span>
+                <input name="invest1" class="layui-input" placeholder="请输入上级分润（%）" value="{$vo.invest1|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">二级分润（%）</span>
+                <input name="invest2" class="layui-input" placeholder="请输入二级分润（%）" value="{$vo.invest2|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">三级分润（%）</span>
+                <input name="invest3" class="layui-input" placeholder="请输入三级分润（%）" value="{$vo.invest3|default=''}">
+            </label>
+        </div>
+
+        <!--<div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">上级赠送红包</span>
+                <input name="red1" class="layui-input" placeholder="请输入上级赠送红包" value="{$vo.red1|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">二级赠送红包</span>
+                <input name="red2" class="layui-input" placeholder="请输入二级赠送红包" value="{$vo.red2|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">三级赠送红包</span>
+                <input name="red3" class="layui-input" placeholder="请输入三级赠送红包" value="{$vo.red3|default=''}">
+            </label>
+        </div>-->
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <!--<label class="layui-col-xs4 relative">
+                <span class="color-green">可用代金券</span>
+                <select class="layui-select" name="offvoucher" required>
+                    {foreach ['0'=>'不可用','1'=>'可用'] as $k=>$v}
+                    {eq name='$vo.offvoucher' value='$k.""'}
+                    <option selected value="{$k}">{$v}</option>
+                    {else}
+                    <option value="{$k}">{$v}</option>
+                    {/eq}
+                    {/foreach}
+                </select>
+            </label>-->
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">开启积分（开启后投资赠送积分）</span>
+                <select class="layui-select" name="integral" required>
+                    {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                    <!--{eq name='$vo.integral' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">积分赠送比例<span class="help-block">（最终获得积分 = 投资金额*积分赠送比例）</span></span>
+                <input name="jfbl" class="layui-input" placeholder="请输入积分比例" value="{$vo.jfbl|default='1'}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">商品库存<span class="help-block">（库存为0时则不可购买）</span></span>
+                <input name="red" class="layui-input" placeholder="请输入商品库存" value="{$vo.stock|default='99999'}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs8 relative">
+                <span class="color-green">红包额度</span>
+                <input name="red" class="layui-input" placeholder="请输入红包额度" value="{$vo.red|default=''}">
+                <span class="help-block">0为不发，红包额度以起投金额成倍赠送到余额</span>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">固定结算时间<span class="help-block">（仅限 当天投资,当天还款付息 有效）</span></span>
+                <input data-date-input="datetime" name="fixedtime" class="layui-input" placeholder="请输入固定结算时间" value="{$vo.fixedtime|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <!--<label class="layui-col-xs4 relative">
+                <span class="color-green">进度自动拉满天数</span>
+                <input name="auto" class="layui-input" placeholder="请输入进度自动拉满天数" value="{$vo.auto|default=''}">
+                <span class="help-block">0为不设置自动拉满天数</span>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">虚拟进度（%）</span>
+                <input name="percent" class="layui-input" placeholder="请输入虚拟进度（%）" value="{$vo.percent|default=''}">
+                <span class="help-block">当进度为100%时项目满投</span>
+            </label>-->
+        </div>
+
+
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">商品封面图片</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-center">商品封面</th>
+                </tr>
+                <tr>
+                    <td width="90px" class="text-center"><input name="img" type="hidden" value="{$vo.img|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="img"]').uploadOneImage()</script>
+        </div>
+
+        <!--<div class="layui-form-item block">
+            <span class="label-required-prev color-green">商品结算说明</span>
+            <textarea name="fixedcontent">{$vo.fixedcontent|default=''|raw}</textarea>
+        </div>-->
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存项目</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="fixedcontent"]', {height: 500});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+
+    })
+</script>
+{/block}

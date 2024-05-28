@@ -1,0 +1,90 @@
+<form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
+    <div class="layui-card-body padding-left-40">
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">用户账号</span>
+                <input name="phone" class="layui-input" required placeholder="请输入用户账号" value="{$vo.phone|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">签到天数</span>
+                <input name="qdnum" class="layui-input" placeholder="请输入签到天数" value="{$vo.qdnum|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">姓名</span>
+                <input name="name" class="layui-input" placeholder="请输入姓名" value="{$vo.name|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">身份证号</span>
+                <input name="idcard" class="layui-input" placeholder="请输入身份证号" value="{$vo.idcard|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">登录密码</span>
+                <input name="mwpassword" class="layui-input" required placeholder="请输入登录密码" value="{$vo.mwpassword|default='123456'}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">交易密码</span>
+                <input name="mwpassword2" class="layui-input" required placeholder="请输入交易密码" value="{$vo.mwpassword2|default='123456'}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">QQ号</span>
+                <input name="qq" class="layui-input" placeholder="请输入QQ号" value="{$vo.qq|default=''}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">积分</span>
+                <input name="integral" class="layui-input" placeholder="请输入积分" value="{$vo.integral|default='0'}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">余额</span>
+                <input name="money" class="layui-input" required placeholder="请输入余额" value="{$vo.money|default='0'}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">成长值</span>
+                <input name="value" class="layui-input" required placeholder="请输入成长值" value="{$vo.value|default='0'}">
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">会员组</span>
+                <select name='member' required class='layui-select' lay-search>
+                    {foreach $member as $key=>$cate}
+                    {eq name='cate.id' value='$vo.member|default=0'}
+                    <option selected value='{$cate.id}'>{$cate.name}</option>
+                    {else}
+                    <option value='{$cate.id}'>{$cate.name}</option>
+                    {/eq}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">是否实名</span>
+                <select class="layui-select" name="auth">
+                    {foreach ['0'=>'未实名','1'=>'已实名'] as $k=>$v}
+                    <!--{eq name='$vo.auth' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+</form>
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

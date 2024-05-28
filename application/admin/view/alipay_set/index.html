@@ -1,0 +1,64 @@
+{extend name='admin@main'}
+
+{block name="button"}
+{if auth("admin/alipay/add")}
+<button data-modal='{:url("add")}' data-title="添加" class='layui-btn layui-btn-sm layui-btn'>添加</button>
+{/if}
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-left nowrap'>APPID</th>
+            <th class='text-left nowrap'>状态</th>
+            <th class="text-center"></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.appid|default=''}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.status == 0}
+                <span class="color-red">已关闭</span>
+                {/if}
+                {if $vo.status == 1}
+                <span class="color-green">已开启</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+
+                {if $vo.status eq 1 and auth("admin/alipay/forbid")}
+                <a class="layui-btn layui-btn-primary layui-btn-sm" data-confirm="确定要关闭吗？" data-action="{:url('forbid')}" data-value="id#{$vo.id};status#0" data-csrf="{:systoken('forbid')}">关 闭</a>
+                {elseif auth("admin/alipay/resume")}
+                <a class="layui-btn layui-btn-warm layui-btn-sm" data-action="{:url('resume')}" data-value="id#{$vo.id};status#1" data-csrf="{:systoken('resume')}">启 用</a>
+                {/if}
+
+                {if auth("admin/alipay/edit")}
+                <a data-title="编辑" class="layui-btn layui-btn-sm" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                {/if}
+
+                {if auth("admin/alipay/remove")}
+                <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                {/if}
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

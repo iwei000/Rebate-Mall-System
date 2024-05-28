@@ -1,0 +1,54 @@
+{extend name='admin@main'}
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='users/relation_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='text-center nowrap'>会员ID</th>
+            <th class="text-center nowrap">用户名</th>
+            <th class="text-center nowrap">姓名</th>
+            <th class="text-center nowrap">余额</th>
+            <th class="text-center nowrap">是否认证</th>
+            <th class="text-center nowrap">推荐人用户名</th>
+            <th class='text-center nowrap'>编号</th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-center nowrap'>
+                {$vo.id|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                <a data-title="查看流水" data-open='{:url("admin/users/user_relation")}?phone={$vo.phone}&type={$type}'>{$vo.phone|default='--'}</a>
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.name|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.money|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {if $vo.auth == 1}
+                <span class="color-green">已认证</span>
+                {/if}
+                {if $vo.auth == 0}
+                <span class="color-red">未认证</span>
+                {/if}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.top_phone|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                <a data-title="查看" class="layui-btn layui-btn-sm layui-btn-warm" data-open='{:url("admin/users/index")}?u_phone={$vo.phone}'>查看详情</a>
+            </td>
+        </tr>
+        {/foreach}
+        {/notempty}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

@@ -1,0 +1,85 @@
+{extend name='admin@main'}
+
+{block name="button"}
+{if auth("admin/slide/add")}
+<button data-modal='{:url("add")}' data-title="添加轮播图" class='layui-btn layui-btn-sm layui-btn-primary'>添加轮播图</button>
+{/if}
+{if auth("admin/slide/remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" class='layui-btn layui-btn-sm layui-btn-primary'>删除轮播图</button>
+{/if}
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='list-table-sort-td'>
+                <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
+            </th>
+            <th class='text-left nowrap' width="25%">图片</th>
+            <th class='text-left nowrap' width="30%">图片路径</th>
+            <th class='text-left nowrap' width="15%">链接地址</th>
+            <th class='text-left nowrap' width="15%">状态</th>
+            <th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr data-dbclick>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='list-table-sort-td'>
+                <input data-action-blur="{:request()->url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input">
+            </td>
+            <td class='text-left nowrap'>
+                {notempty name='vo.path'}
+                <img data-tips-image style="width:100px;height:50px" src="{$vo.path|default=''}" class="margin-right-5 text-top">
+                {/notempty}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.path|default='--'}
+            </td>
+            <td class='text-left nowrap'>
+                {$vo.url|default='--'}
+            </td>
+            <td class='text-left nowrap'>
+                {if $vo.show == 0}
+                <span class="color-desc">隐藏</span>
+                {/if}
+                {if $vo.show == 1}
+                <span class="color-green">显示</span>
+                {/if}
+            </td>
+            <td class='text-left nowrap'>
+
+                <div class="nowrap margin-bottom-5">
+                    {if auth("admin/slide/edit")}
+                    <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                    {else}
+                    <a data-tips-text="您没有编辑轮播图的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">编 辑</a>
+                    {/if}
+                    {if auth("admin/slide/remove")}
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除轮播图吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                    {else}
+                    <a data-tips-text="您没有删除轮播图的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">删 除</a>
+                    {/if}
+
+                </div>
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+
+</div>
+{/block}

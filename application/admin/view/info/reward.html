@@ -1,0 +1,65 @@
+{extend name='admin@main'}
+{block name="content"}
+<form onsubmit="return false;"  data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="think-box-shadow padding-40">
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">用户注册（元）</span>
+                <input name="register" class="layui-input" placeholder="请输入用户注册（元）" value="{$vo.register|default='0'}" required>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">注册赠送成长值</span>
+                <input name="registerzzz" class="layui-input" placeholder="请输入注册赠送成长值" value="{$vo.registerzzz|default='0'}" required>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">实名赠送（元）</span>
+                <input name="shimingsong" class="layui-input" placeholder="请输入实名赠送（元）" value="{$vo.shimingsong|default='0'}" required>
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">邀请注册（元）</span>
+                <input name="register2" class="layui-input" placeholder="请输入邀请注册（元）" value="{$vo.register2|default='0'}" required>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">邀请充值（%）：</span>
+                <input name="recharge" class="layui-input" placeholder="请输入邀请充值（%）：" value="{$vo.recharge|default='0'}" required>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">每日签到奖励（元）</span>
+                <input name="qiandao" class="layui-input" placeholder="请输入每日签到奖励（元）" value="{$vo.qiandao|default='0'}" required>
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">邀请投资1级（%）</span>
+                <input name="invest1" class="layui-input" placeholder="请输入邀请投资1级（%）" value="{$vo.invest1|default='0'}" required>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">邀请投资2级（%）</span>
+                <input name="invest2" class="layui-input" placeholder="请输入邀请投资2级（%）" value="{$vo.invest2|default='0'}" required>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">邀请投资3级（%）</span>
+                <input name="invest3" class="layui-input" placeholder="请输入邀请投资3级（%）" value="{$vo.invest3|default='0'}" required>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">新人福利奖励（元）</span>
+                <input name="new_reward" class="layui-input" placeholder="新人福利奖励（元）" value="{$vo.new_reward|default='0'}" required>
+            </label>
+        </div>
+
+        <div class="layui-form-item text-left">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn" type="submit">保存设置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

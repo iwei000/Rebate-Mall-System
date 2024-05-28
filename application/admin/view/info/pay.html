@@ -1,0 +1,366 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+<form onsubmit="return false;"  data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">银行入款</li>
+            <li>支付宝APP支付</li>
+            <li>支付宝扫码</li>
+            <li>微信扫码</li>
+            <li>公帐入款</li>
+            <li>支付宝转银行卡</li>
+            <li>微信转银行卡</li>
+        </ul>
+        <div class="layui-tab-content" style="">
+            <div class="layui-tab-item layui-show">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款银行</span>
+                            <input name="pay_bank_type" class="layui-input" placeholder="请输入收款银行" value="{$vo.pay_bank_type|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款人</span>
+                            <input name="pay_bank_name" class="layui-input" placeholder="请输入收款人" value="{$vo.pay_bank_name|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款账号</span>
+                            <input name="pay_bank_account" class="layui-input" placeholder="请输入收款账号" value="{$vo.pay_bank_account|default='无'}" required>
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="pay_bank_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.pay_bank_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">赠送比例（%）</span>
+                            <input name="pay_bank_give" class="layui-input" placeholder="请输入赠送比例（%）" value="{$vo.pay_bank_give|default='0'}">
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">成长值达到标准显示</span>
+                            <input name="pay_bankbz" class="layui-input" placeholder="请输入成长值" value="{$vo.pay_bankbz|default='0'}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs12 relative">
+                            <span class="color-green">支付描述</span>
+                            <input name="pay_bank" class="layui-input" placeholder="请输入支付描述" value="{$vo.pay_bank|default='0'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="alipay_app_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.alipay_app_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <!--<label class="layui-col-xs8 relative">
+                            <span class="color-green">应用私钥（RSA2）</span>
+                            <input name="alipay_private_key" class="layui-input" placeholder="请输入支付宝密钥（RSA2）" value="{$vo.alipay_private_key|default=''}">
+                        </label>-->
+                    </div>
+                    <!--<div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">支付宝APPID</span>
+                            <input name="alipay_appid" class="layui-input" placeholder="请输入支付宝APPID" value="{$vo.alipay_appid|default=''}">
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">支付宝公钥</span>
+                            <input name="alipay_public_key" class="layui-input" placeholder="请输入支付宝公钥" value="{$vo.alipay_public_key|default=''}">
+                        </label>
+                    </div>-->
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">二维码</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">收款二维码</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center"><input name="qr_alipay_img" type="hidden" value="{$vo.qr_alipay_img|default=''}"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="qr_alipay_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="qr_alipay_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.qr_alipay_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">支付描述</span>
+                            <input name="qr_alipay" class="layui-input" placeholder="请输入支付描述" value="{$vo.qr_alipay|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启跳转</span>
+                            <select class="layui-select" name="qr_alipay_statustz" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.qr_alipay_statustz' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">跳转链接</span>
+                            <input name="qr_alipaytzlj" class="layui-input" placeholder="请输入跳转链接" value="{$vo.qr_alipaytzlj|default=''}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item">
+                        <span class="color-green label-required-prev">二维码</span>
+                        <table class="layui-table">
+                            <thead>
+                            <tr>
+                                <th class="text-center">收款二维码</th>
+                            </tr>
+                            <tr>
+                                <td width="150px" class="text-center"><input name="qr_wechat_img" type="hidden" value="{$vo.qr_wechat_img|default=''}"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <script>$('[name="qr_wechat_img"]').uploadOneImage()</script>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="qr_wechat_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.qr_wechat_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">支付描述</span>
+                            <input name="qr_wechat" class="layui-input" placeholder="请输入支付描述" value="{$vo.qr_wechat|default=''}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启跳转</span>
+                            <select class="layui-select" name="qr_wechat_statustz" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.qr_wechat_statustz' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs8 relative">
+                            <span class="color-green">跳转链接</span>
+                            <input name="qr_wechattzlj" class="layui-input" placeholder="请输入跳转链接" value="{$vo.qr_wechattzlj|default=''}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款银行</span>
+                            <input name="gz_bank_type" class="layui-input" placeholder="请输入收款银行" value="{$vo.gz_bank_type|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款人</span>
+                            <input name="gz_bank_name" class="layui-input" placeholder="请输入收款人" value="{$vo.gz_bank_name|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款账号</span>
+                            <input name="gz_bank_account" class="layui-input" placeholder="请输入收款账号" value="{$vo.gz_bank_account|default='无'}" required>
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="gz_bank_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.gz_bank_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">赠送比例（%）</span>
+                            <input name="gz_bankz" class="layui-input" placeholder="请输入赠送比例（%）" value="{$vo.gz_bankz|default='0'}">
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">成长值达到标准显示</span>
+                            <input name="gz_bankbz" class="layui-input" placeholder="请输入成长值" value="{$vo.gz_bankbz|default='0'}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs12 relative">
+                            <span class="color-green">支付描述</span>
+                            <input name="gz_bank" class="layui-input" placeholder="请输入支付描述" value="{$vo.gz_bank|default='0'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款银行</span>
+                            <input name="alipay_bank_type" class="layui-input" placeholder="请输入收款银行" value="{$vo.alipay_bank_type|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款人</span>
+                            <input name="alipay_bank_name" class="layui-input" placeholder="请输入收款人" value="{$vo.alipay_bank_name|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款账号</span>
+                            <input name="alipay_bank_account" class="layui-input" placeholder="请输入收款账号" value="{$vo.alipay_bank_account|default='无'}" required>
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="alipay_bank_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.alipay_bank_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">赠送比例（%）</span>
+                            <input name="alipay_bank_give" class="layui-input" placeholder="请输入赠送比例（%）" value="{$vo.alipay_bank_give|default='0'}">
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">成长值达到标准显示</span>
+                            <input name="alipay_bankbz" class="layui-input" placeholder="请输入成长值" value="{$vo.alipay_bankbz|default='0'}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs12 relative">
+                            <span class="color-green">支付描述</span>
+                            <input name="alipay_bank" class="layui-input" placeholder="请输入支付描述" value="{$vo.alipay_bank|default='0'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-tab-item">
+                <div class="layui-card-body padding-10 layui-col-md8">
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款银行</span>
+                            <input name="wx_bank_type" class="layui-input" placeholder="请输入收款银行" value="{$vo.wx_bank_type|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款人</span>
+                            <input name="wx_bank_name" class="layui-input" placeholder="请输入收款人" value="{$vo.wx_bank_name|default='无'}" required>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">收款账号</span>
+                            <input name="wx_bank_account" class="layui-input" placeholder="请输入收款账号" value="{$vo.wx_bank_account|default='无'}" required>
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">是否开启</span>
+                            <select class="layui-select" name="wx_bank_status" required>
+                                {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                                <!--{eq name='$vo.wx_bank_status' value='$k.""'}-->
+                                <option selected value="{$k}">{$v}</option>
+                                <!--{else}-->
+                                <option value="{$k}">{$v}</option>
+                                <!--{/eq}-->
+                                {/foreach}
+                            </select>
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">赠送比例（%）</span>
+                            <input name="wx_bank_give" class="layui-input" placeholder="请输入赠送比例（%）" value="{$vo.wx_bank_give|default='0'}">
+                        </label>
+                        <label class="layui-col-xs4 relative">
+                            <span class="color-green">成长值达到标准显示</span>
+                            <input name="wx_bankbz" class="layui-input" placeholder="请输入成长值" value="{$vo.wx_bankbz|default='0'}">
+                        </label>
+                    </div>
+                    <div class="layui-form-item layui-row layui-col-space15">
+                        <label class="layui-col-xs12 relative">
+                            <span class="color-green">支付描述</span>
+                            <input name="wx_bank" class="layui-input" placeholder="请输入支付描述" value="{$vo.wx_bank|default='0'}">
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn" type="submit">保存设置</button>
+        </div>
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="rule"]', {height: 500});
+    })
+</script>
+{/block}

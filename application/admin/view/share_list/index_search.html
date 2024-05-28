@@ -1,0 +1,41 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">文章名称</label>
+            <div class="layui-input-inline">
+                <input name="s_title" value="{$Think.get.s_title|default=''}" placeholder="请输入分享文章名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">用户</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入分享用户账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">上传时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="i_time" value="{$Think.get.i_time|default=''}" placeholder="请选择上传时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">状态</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="i_status">
+                    {foreach [''=>'- 全部状态 -','0'=>'待审核','1'=>'已完成','2'=>'已拒绝'] as $k=>$v}
+                    <!--{eq name='Think.get.i_status' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+    <script>form.render()</script>
+</fieldset>

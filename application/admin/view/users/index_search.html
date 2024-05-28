@@ -1,0 +1,88 @@
+<fieldset>
+
+    <legend>条件搜索</legend>
+
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">用户账号</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入用户账号" class="layui-input">
+            </div>
+        </div>
+        
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input name="u_name" value="{$Think.get.u_name|default=''}" placeholder="请输入用户名" class="layui-input">
+            </div>
+        </div>
+        
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">IP搜索</label>
+            <div class="layui-input-inline">
+                <input name="u_ip" value="{$Think.get.u_ip|default=''}" placeholder="请输入IP(模糊查找)" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">注册时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="u_time" value="{$Think.get.u_time|default=''}" placeholder="请选择注册时间" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">实名状态</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="u_auth">
+                    {foreach [''=>'-- 全部状态 --','0'=>'未实名账号','1'=>'已实名账号'] as $k=>$v}
+                    {eq name='Think.get.u_auth' value='$k.""'}
+                    <option selected value="{$k}">{$v}</option>
+                    {else}
+                    <option value="{$k}">{$v}</option>
+                    {/eq}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">账号状态</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="u_clock">
+                    {foreach [''=>'-- 全部状态 --','0'=>'已冻结的账号','1'=>'使用中的账号'] as $k=>$v}
+                    {eq name='Think.get.u_clock' value='$k.""'}
+                    <option selected value="{$k}">{$v}</option>
+                    {else}
+                    <option value="{$k}">{$v}</option>
+                    {/eq}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">会员组</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="u_member" lay-search>
+                    <option value="">全部方式</option>
+                    {foreach $member as $v}
+                    <!--{eq name='Think.get.u_member' value='$v.id.""'}-->
+                    <option selected value="{$v.id}">{$v.name}</option>
+                    <!--{else}-->
+                    <option value="{$v.id}">{$v.name}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+
+</fieldset>
+
+<script>form.render()</script>

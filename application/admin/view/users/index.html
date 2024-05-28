@@ -1,0 +1,107 @@
+{extend name='main'}
+
+{block name="button"}
+
+{if auth("add")}
+<button data-modal='{:url("add")}' data-title="添加用户" class='layui-btn layui-btn-sm layui-btn-primary'>添加用户</button>
+{/if}
+
+{if auth("forbid")}
+<button data-action='{:url("forbid")}' data-rule="id#{key}" data-csrf="{:systoken('forbid')}" data-confirm="确定要冻结这些用户吗？" class='layui-btn layui-btn-sm layui-btn-primary'>冻结用户</button>
+{/if}
+
+{if auth("remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些用户吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除用户</button>
+{/if}
+
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='users/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+            </th>
+            <th class='text-left nowrap'>用户信息</th>
+            <th class='text-left nowrap'>用户资料</th>
+            <th class='text-left nowrap'>用户资金（点击金额查看）</th>
+            <th class='text-left nowrap'>用户详情</th>
+            <th class='text-left nowrap'>其他</th>
+            <th class='text-left nowrap'></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr data-dbclick>
+            <td class='list-table-check-td think-checkbox'>
+                <label><input class="list-check-box" value='{$vo.id}' type='checkbox'></label>
+            </td>
+            <td class='text-left nowrap'>
+                姓名：{$vo.name|default='--'}<br>
+                用户名：<a data-title="查看流水" data-open='{:url("admin/finance/index")}?u_phone={$vo.phone}'>{$vo.phone|default='--'}</a><br>
+                状态：
+                {eq name='vo.online' value='false'}
+                <span class="color-desc">离线</span>
+                {else}
+                <span class="color-green">在线</span>
+                {/eq}
+                <br>
+                实名：
+                {eq name='vo.auth' value='0'}
+                <span class="color-red">未实名</span>
+                {else}
+                <span class="color-green">已实名</span>
+                {/eq}<br>
+            </td>
+            <td class='text-left nowrap'>
+                会员等级：{$vo.m_name|default='--'}<br>
+                推荐人：{$vo.top|default='--'}<br>
+                IP：{$vo.ip|default='--'}<br>
+                ISP：{$vo.isp|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                账户余额：<a data-title="查看充值记录" class="color-red" data-open='{:url("admin/recharge/index")}?u_phone={$vo.phone}'>{$vo.money|default='--'} 元</a><br>
+                提现总额：<a data-title="查看提现" class="color-green" data-open='{:url("admin/cash/index")}?u_phone={$vo.phone}&i_status=1'>{$vo.cash_sum|default='--'} 元</a><br>
+                充值总额：<a data-title="查看充值记录" style="color: orange" data-open='{:url("admin/recharge/index")}?u_phone={$vo.phone}&i_status=1'>{$vo.recharge_sum|default='--'} 元</a><br>
+                投资总额：<a data-title="查看投资" data-open='{:url("admin/invest/index")}?u_phone={$vo.phone}'>{$vo.invest_sum|default='--'} 元</a><br>
+            </td>
+            <td class='text-left nowrap'>
+<!--                宝库余额：{$vo.baoku_money|default='0.00'} 元<br>-->
+                待收利息：{$vo.wait_invest|default='--'} 元<br>
+                待收本金：{$vo.wait_money|default='--'} 元<br>
+                成长值：{$vo.value|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                积分：{$vo.integral|default='--'}<br>
+                用户状态：
+                {eq name='vo.clock' value='0'}
+                <span class="color-red">已冻结</span>
+                {else}
+                <span class="color-green">正常</span>
+                {/eq}<br>
+                注册时间：{$vo.time}<br>
+                最近操作：{$vo.logintime|format_datetime}
+            </td>
+            <td class='text-left nowrap'>
+                {if auth("edit")}
+                <a data-dbclick class="layui-btn layui-btn-sm" data-title="编辑用户" data-modal='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                {/if}
+                {if $vo.clock eq 1 and auth("forbid")}
+                <a class="layui-btn layui-btn-sm layui-btn-warm" data-action="{:url('forbid')}" data-value="id#{$vo.id};clock#0" data-csrf="{:systoken('forbid')}">冻 结</a>
+                {elseif $vo.clock eq 0 and auth("resume")}
+                <a class="layui-btn layui-btn-sm layui-btn-warm" data-action="{:url('resume')}" data-value="id#{$vo.id};clock#1" data-csrf="{:systoken('resume')}">解 冻</a>
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+
+{/block}

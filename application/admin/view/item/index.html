@@ -1,0 +1,82 @@
+{extend name='admin@main'}
+
+{block name="button"}
+{if auth("admin/item/add")}
+<button data-open='{:url("add")}' data-title="添加商品" class='layui-btn layui-btn-sm layui-btn-primary'>添加商品</button>
+{/if}
+{if auth("admin/item/remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" class='layui-btn layui-btn-sm layui-btn-primary'>删除商品</button>
+{/if}
+{/block}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='item/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='list-table-sort-td'>
+                <button type="button" data-reload class="layui-btn layui-btn-xs">排序刷新</button>
+            </th>
+            <th class='text-left nowrap' width="30%">商品信息</th>
+            <th class='text-left nowrap' width="15%">商品分类</th>
+            <th class='text-left nowrap' width="15%">商品配置</th>
+            <th class='text-left nowrap' width="15%">其他配置</th>
+            <th></th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr data-dbclick>
+            <td class='list-table-check-td think-checkbox'><input class="list-check-box" value='{$vo.id}' type='checkbox'></td>
+            <td class='list-table-sort-td'><input data-action-blur="{:request()->url()}" data-value="id#{$vo.id};action#sort;sort#{value}" data-loading="false" value="{$vo.sort}" class="list-sort-input"></td>
+            <td class='text-left' style="max-width: 250px;overflow: hidden;">
+                商品名称：{$vo.title|default='--'}<br>
+                开始时间：{$vo.time|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                商品ID：{$vo.id|default='--'}<br>
+                所属分类：{$vo.item_class.name|default='--'}<br>
+                还款方式：{$vo.pay_type.name|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                收益率：{$vo.rate|default='--'}%<br>
+                商品期限：{$vo.day|default='--'}天<br>
+                库存：{$vo.stock|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                折扣：{$vo.discount|default='--'}元<br>
+                起购金额：{$vo.min|default='--'}元<br>
+                限购次数：{$vo.num|default='--'}次<br>
+            </td>
+            <td class='text-left nowrap'>
+
+                <div class="nowrap margin-bottom-5">
+                    {if auth("admin/item/edit")}
+                    <a data-dbclick class="layui-btn layui-btn-sm" data-open='{:url("edit")}?id={$vo.id}'>编 辑</a>
+                    {else}
+                    <a data-tips-text="您没有编辑商品的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">编 辑</a>
+                    {/if}
+                    {if auth("admin/item/remove")}
+                    <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                    {else}
+                    <a data-tips-text="您没有删除商品的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled" data-csrf="{:systoken('remove')}">删 除</a>
+                    {/if}
+
+                </div>
+
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+
+</div>
+{/block}

@@ -1,0 +1,63 @@
+<form onsubmit="return false;" action="{:request()->url()}" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">优惠券标题</span>
+                <input name="name" required class="layui-input" value="{$vo.name|default='优惠券'}" placeholder="请输入优惠券标题">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">会员组</span>
+                <select name='member' required class='layui-select' lay-search>
+                    {foreach $member as $key=>$cate}
+                    <option value='{$cate.id}'>{$cate.name}</option>
+                    {/foreach}
+                </select>
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">指定商品ID</span>
+                <input name="xid" class="layui-input" value="{$vo.xid|default=''}" placeholder="请输入指定商品ID">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">优惠券开始使用时间</span>
+                <input name="startAt" data-date-input="datetime" required class="layui-input" placeholder="请输入优惠券开始使用时间" value="{$vo.startAt|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">优惠券失效时间</span>
+                <input name="endAt" data-date-input="datetime" required class="layui-input" placeholder="请输入优惠券失效时间" value="{$vo.endAt|default=''}">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">优惠券金额</span>
+                <input name="valueDesc" required class="layui-input" value="{$vo.valueDesc|default=''}" placeholder="请输入优惠券金额">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">优惠券描述</span>
+                <input name="description" required class="layui-input" value="{$vo.description|default='代金券只能用于投资，不能提现'}" placeholder="请输入优惠券描述">
+            </label>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消</button>
+            <button class="layui-btn" type="submit">保存</button>
+        </div>
+
+    </div>
+</form>
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

@@ -1,0 +1,164 @@
+{extend name='admin@main'}
+{block name="content"}
+<form onsubmit="return false;"  data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+    <div class="think-box-shadow padding-40">
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">网站名称</span>
+                <input name="webname" class="layui-input" placeholder="请输入网站名称" value="{$vo.webname|default=''}" required>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">网站域名</span>
+                <input name="domain" class="layui-input" placeholder="请输入网站域名" value="{$vo.domain|default=''}" required>
+            </label>
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">公司名称</span>
+                <input name="company" class="layui-input" placeholder="请输入公司名称" value="{$vo.company|default=''}" required>
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">公司电话</span>
+                <input name="tel" class="layui-input" placeholder="请输入公司电话" value="{$vo.tel|default=''}" required>
+            </label>
+            <label class="layui-col-xs8 relative">
+                <span class="color-green">公司地址</span>
+                <input name="address" required class="layui-input" placeholder="请输入公司地址" value="{$vo.address|default=''}">
+            </label>
+        </div>
+        <!--<div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">网站公告</span>
+                <input name="notice" class="layui-input" placeholder="请输入网站公告" value="{$vo.notice|default=''}">
+            </label>
+        </div>-->
+        <!--<div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs6 relative">
+                <span class="color-green">客服QQ号</span>
+                <input name="qq" class="layui-input" placeholder="请输入客服QQ号" value="{$vo.qq|default=''}">
+            </label>
+            <label class="layui-col-xs6 relative">
+                <span class="color-green">客服微信号</span>
+                <input name="wechat" class="layui-input" placeholder="请输入客服微信号" value="{$vo.wechat|default=''}">
+            </label>
+        </div>-->
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">实名开关</span>
+                <select class="layui-select" name="cert" required>
+                    {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                    <!--{eq name='$vo.cert' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs8 relative">
+                <span class="color-green">实名认证APPCODE <a href="https://market.aliyun.com/products/56928004/cmapi014760.html" target="_blank">【购买地址】</a></span>
+                <input name="linetoken" class="layui-input" placeholder="请输入实名认证APPCODE" value="{$vo.linetoken|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs4 relative">
+                <span class="color-green">银行卡认证开关</span>
+                <select class="layui-select" name="bank" required>
+                    {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                    <!--{eq name='$vo.bank' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs8 relative">
+                <span class="color-green">银行卡认证APPCODE <a href="https://market.aliyun.com/products/57000002/cmapi014429.html" target="_blank">【购买地址】</a></span>
+                <input name="banktoken" class="layui-input" placeholder="请输入银行卡认证APPCODE" value="{$vo.banktoken|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">客服链接</span>
+                <input name="service" class="layui-input" placeholder="请输入客服链接" value="{$vo.service|default=''}" required>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">APP下载连接</span>
+                <input name="app" required class="layui-input" placeholder="请输入APP下载连接" value="{$vo.app|default=''}">
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">优惠券开关</span>
+                <select class="layui-select" name="show_coupon" required>
+                    {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                    <!--{eq name='$vo.show_coupon' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">PC端</span>
+                <select class="layui-select" name="pc_open" required>
+                    {foreach ['0'=>'关闭','1'=>'开启'] as $k=>$v}
+                    <!--{eq name='$vo.pc_open' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">APP标语</span>
+                <input name="appff" class="layui-input" placeholder="请输入APP标语" value="{$vo.appff|default=''}">
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">ICP备案号</span>
+                <input name="icp" class="layui-input" placeholder="请输入ICP备案号" value="{$vo.icp|default=''}">
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">最低提现金额</span>
+                <input name="cash" class="layui-input" placeholder="请输入最低提现金额" value="{$vo.cash|default=''}" required>
+            </label>
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">最低充值金额</span>
+                <input name="min_recharge" class="layui-input" placeholder="请输入最低充值金额" value="{$vo.min_recharge|default=''}" required>
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">禁止IP<span class="color-red">（多个IP请用半角 , 号隔开）</span></span>
+                <input name="ban_ip" class="layui-input" placeholder="请输入禁止IP（多个IP请用半角 , 号隔开）" value="{$vo.ban_ip|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">合同设置</span>
+            <textarea name="contract">{$vo.contract|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn" type="submit">保存设置</button>
+        </div>
+    </div>
+</form>
+{/block}
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="contract"]', {height: 500});
+    })
+</script>
+{/block}

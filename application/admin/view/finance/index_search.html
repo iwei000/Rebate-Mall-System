@@ -1,0 +1,41 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">操作账户</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入操作账户" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">详情</label>
+            <div class="layui-input-inline">
+                <input name="i_reason" value="{$Think.get.i_reason|default=''}" placeholder="请输入详情（模糊搜索）" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">流水时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="i_time" value="{$Think.get.i_time|default=''}" placeholder="请选择流水时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">账单类型</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="i_type">
+                    {foreach [''=>'- 全部类型 -','1'=>'收入','2'=>'支出'] as $k=>$v}
+                    <!--{eq name='Think.get.i_type' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+    <script>form.render()</script>
+</fieldset>

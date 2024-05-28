@@ -1,0 +1,200 @@
+{extend name='main'}
+
+{block name='content'}
+
+<style>
+
+    .store-total-container {
+        font-size: 14px;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+
+    .store-total-container .store-total-icon {
+        top: 45%;
+        right: 8%;
+        font-size: 65px;
+        position: absolute;
+        color: rgba(255, 255, 255, 0.4);
+    }
+
+    .store-total-container .store-total-item {
+        color: #fff;
+        line-height: 4em;
+        padding: 15px 25px;
+        position: relative;
+    }
+
+    .store-total-container .store-total-item > div:nth-child(2) {
+        font-size: 46px;
+        line-height: 46px;
+    }
+
+</style>
+
+<div class="think-box-shadow store-total-container notselect">
+    <div class="margin-bottom-15">数据统计</div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="store-total-item nowrap" style="background:linear-gradient(-125deg,#57bdbf,#2f9de2)">
+                <div>已投项目</div>
+                <div>{:number_format($invest_count)}</div>
+                <div>当前已投项目总数</div>
+            </div>
+            <i class="store-total-icon layui-icon layui-icon-template-1"></i>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="store-total-item nowrap" style="background:linear-gradient(-125deg,#ff7d7d,#fb2c95)">
+                <div>用户总量</div>
+                <div>{:number_format($user_count)}</div>
+                <div>当前用户总数量（人）</div>
+            </div>
+            <i class="store-total-icon layui-icon layui-icon-user"></i>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="store-total-item nowrap" style="background:linear-gradient(-113deg,#c543d8,#925cc3)">
+                <div>充值总额</div>
+                <div>{:number_format($recharge_sum)}</div>
+                <div>已支付充值订单总金额（元）</div>
+            </div>
+            <i class="store-total-icon layui-icon layui-icon-read"></i>
+        </div>
+        <div class="layui-col-sm6 layui-col-md3">
+            <div class="store-total-item nowrap" style="background:linear-gradient(-141deg,#ecca1b,#f39526)">
+                <div>提现总额</div>
+                <div>{:number_format($cash_sum)}</div>
+                <div>已完成提现订单总金额（元）</div>
+            </div>
+            <i class="store-total-icon layui-icon layui-icon-survey"></i>
+        </div>
+    </div>
+</div>
+
+<!--<div class="think-box-shadow store-total-container">
+    <div class="margin-bottom-15">实时概况</div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md6 margin-bottom-15">
+            <div class="layui-row">
+                <div class="layui-col-xs3 text-center">
+                    <i class="layui-icon color-blue" style="font-size:60px;line-height:72px">&#xe65e;</i>
+                </div>
+                <div class="layui-col-xs4">
+                    <div class="font-s14">今日已投金额</div>
+                    <div class="font-s16">1351.00</div>
+                    <div class="font-s12 color-desc">昨日：974.00</div>
+                </div>
+                <div class="layui-col-xs5">
+                    <div class="font-s14">今日已投项目</div>
+                    <div class="font-s16">106</div>
+                    <div class="font-s12 color-desc">昨日：76</div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md6 margin-bottom-15">
+            <div class="layui-row">
+                <div class="layui-col-xs3 text-center">
+                    <i class="layui-icon color-blue" style="font-size:60px;line-height:72px">&#xe663;</i>
+                </div>
+                <div class="layui-col-xs4">
+                    <div class="font-s14">今日新增用户</div>
+                    <div class="font-s16">327</div>
+                    <div class="font-s12 color-desc">昨日：238</div>
+                </div>
+                <div class="layui-col-xs5">
+                    <div class="font-s14">今日充值金额</div>
+                    <div class="font-s16">69元</div>
+                    <div class="font-s12 color-desc">昨日：34元</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>-->
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="think-box-shadow">
+            <table class="layui-table" lay-even>
+                <caption class="text-left margin-bottom-15 font-s14">综合报表</caption>
+                <colgroup>
+                    <col width="30%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td>备注</td>
+                        <td>入款</td>
+                        <td>出款</td>
+                        <td>发送收益</td>
+                        <td>新增投资</td>
+                        <td>新增投资额</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>上月</td>
+                        <td>{:number_format($last_month['recharge'],2)}元</td>
+                        <td>{:number_format($last_month['cash'],2)}元</td>
+                        <td>{:number_format($last_month['invest_list'],2)}元</td>
+                        <td>{:number_format($last_month['invest'])}项</td>
+                        <td>{:number_format($last_month['invest_sum'],2)}元</td>
+                    </tr>
+                    <tr>
+                        <td>本月</td>
+                        <td>{:number_format($month['recharge'],2)}元</td>
+                        <td>{:number_format($month['cash'],2)}元</td>
+                        <td>{:number_format($month['invest_list'],2)}元</td>
+                        <td>{:number_format($month['invest'])}项</td>
+                        <td>{:number_format($month['invest_sum'],2)}元</td>
+                    </tr>
+                    <tr>
+                        <td>总计</td>
+                        <td><?php echo number_format(Db::name('LcRecharge')->where('status = 1')->sum('money'),2);?>元</td>
+                        <td><?php echo number_format(Db::name('LcCash')->where('status = 1')->sum('money'),2);?>元</td>
+                        <td><?php echo number_format(Db::name('LcInvestList')->where('status = 1')->sum('pay1'),2);?>元</td>
+                        <td><?php echo number_format(Db::name('LcInvest')->count());?>笔</td>
+                        <td><?php echo number_format(Db::name('LcInvest')->sum('money'),2);?>元</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="layui-row layui-col-space15">
+    <div class="layui-col-md12">
+        <div class="think-box-shadow">
+            <table class="layui-table" lay-even>
+                <caption class="text-left margin-bottom-15 font-s14">本月明细</caption>
+                <colgroup>
+                    <col width="30%">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <td>日期</td>
+                        <td>新增用户</td>
+                        <td>入款</td>
+                        <td>出款</td>
+                        <td>发送收益</td>
+                        <td>新增投资</td>
+                        <td>新增投资额</td>
+                        <td>到期本金</td>
+                        <td>应发利息</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {volist name="day" id="v"}
+                    <tr>
+                        <td>{$v['date']}</td>
+                        <td>{$v['new_user']}人</td>
+                        <td>{:number_format($v['recharge'],2)}元</td>
+                        <td>{:number_format($v['cash'],2)}元</td>
+                        <td>{:number_format($v['invest_list'],2)}元</td>
+                        <td>{:number_format($v['invest'])}项</td>
+                        <td>{:number_format($v['invest_sum'],2)}元</td>
+                        <td>{:number_format($v['expire'],2)}元</td>
+                        <td>{:number_format($v['interest'],2)}元</td>
+                    </tr>
+                    {/volist}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}

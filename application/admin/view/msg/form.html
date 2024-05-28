@@ -1,0 +1,72 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+<form onsubmit="return false;" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">是否置顶</span>
+                <select class="layui-select" name="top">
+                    {foreach ['0'=>'否','1'=>'是'] as $k=>$v}
+                    <!--{eq name='$vo.top' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs9 relative">
+                <span class="color-green">站内信标题</span>
+                <input name="title" required class="layui-input" placeholder="请输入站内信标题" value="{$vo.title|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">排序</span>
+                <input name="sort" class="layui-input" placeholder="请输入排序" value="{$vo.sort|default=''}">
+            </label>
+            <label class="layui-col-xs9 relative">
+                <span class="color-green">接收账号</span>
+                <input name="phone" class="layui-input" placeholder="请输入接收账号（选填）" value="{$vo.phone|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">站内信内容</span>
+            <textarea name="content">{$vo.content|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存站内信</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+
+    })
+</script>
+{/block}

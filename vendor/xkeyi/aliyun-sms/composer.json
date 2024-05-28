@@ -1,0 +1,31 @@
+{
+    "name": "xkeyi\/aliyun-sms",
+    "description": "Aliyun SMS SDK",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xkeyi",
+            "email": "xkeyioo@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Xkeyi\\AliyunSms\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Xkeyi\\AliyunSms\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Xkeyi\\AliyunSms\\ServiceProvider"
+            ]
+        }
+    }
+}

@@ -1,0 +1,32 @@
+<form onsubmit="return false;" action="{:request()->url()}" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body">
+
+        <div class="layui-row margin-bottom-15">
+            <label class="layui-col-xs2 think-form-label">分类名称</label>
+            <label class="layui-col-xs10">
+                <input name="name" required value='{$vo.name|default=""}' placeholder="请输入分类名称" class="layui-input">
+            </label>
+        </div>
+
+        <div class="layui-row margin-bottom-15">
+            <label class="layui-col-xs2 think-form-label">分类排序</label>
+            <label class="layui-col-xs10">
+                <input name="sort" value='{$vo.sort|default="0"}' placeholder="请输入分类排序" class="layui-input">
+            </label>
+        </div>
+
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    <div class="layui-form-item text-center">
+        {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+</form>
+{block name='script'}
+<script>
+    window.form.render();
+</script>
+{/block}

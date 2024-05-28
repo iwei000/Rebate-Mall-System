@@ -1,0 +1,81 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+<form onsubmit="return false;" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">分享文章标题</span>
+                <input name="title" required class="layui-input" value="{$vo.title|default=''}" placeholder="请输入分享文章标题">
+            </label>
+        </div>
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs12 relative">
+                <span class="color-green">奖励施肥次数</span>
+                <input name="money" required class="layui-input" value="{$vo.money|default=''}" placeholder="请输入奖励施肥次数">
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">分享文章封面</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-center">分享文章封面</th>
+                </tr>
+                <tr>
+                    <td width="90px" class="text-center"><input name="img" type="hidden" value="{$vo.img|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="img"]').uploadOneImage()</script>
+        </div>
+        <div class="layui-form-item">
+            <span class="color-green label-required-prev">分享示例图</span>
+            <table class="layui-table">
+                <thead>
+                <tr>
+                    <th class="text-center">分享示例图</th>
+                </tr>
+                <tr>
+                    <td width="90px" class="text-center"><input name="share" type="hidden" value="{$vo.share|default=''}"></td>
+                </tr>
+                </thead>
+            </table>
+            <script>$('[name="share"]').uploadOneImage()</script>
+        </div>
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">分享规则</span>
+            <textarea name="content">{$vo.content|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存文章</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+
+    })
+</script>
+{/block}

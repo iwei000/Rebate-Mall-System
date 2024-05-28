@@ -1,0 +1,88 @@
+{extend name='admin@main'}
+{block name="button"}
+{if auth("change")}
+<button data-modal='{:url("change")}' data-title="增减余额" class='layui-btn layui-btn-sm layui-btn-primary'>增减余额</button>
+{/if}
+{if auth("remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些记录吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除记录</button>
+{/if}
+{/block}
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='recharge/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <label><input data-auto-none data-check-target='.list-check-box' type='checkbox'></label>
+            </th>
+            <th class='text-center nowrap'>订单号</th>
+            <th class='text-center nowrap'>账户</th>
+            <th class="text-center nowrap">姓名</th>
+            <th class="text-center nowrap">充值金额(元)</th>
+            <th class="text-center nowrap">支付方式</th>
+            <th class="text-center nowrap">提交时间</th>
+            <th class="text-center nowrap">状态</th>
+            <th class="text-center nowrap">操作</th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <label><input class="list-check-box" value='{$vo.id}' type='checkbox'></label>
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.orderid}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.phone}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.name}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.money}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.type}
+                {if $vo.reason != '无'}
+                <br/>{$vo.reason|raw}
+                {/if}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.time}
+            </td>
+            <td class='text-center nowrap'>
+                {if $vo.status == 0}
+                <span class="color-red">待审核</span>
+                {/if}
+                {if $vo.status == 1}
+                <span class="color-green">已完成</span>
+                {/if}
+                {if $vo.status == 2}
+                <span class="color-desc">已拒绝</span>
+                {/if}
+            </td>
+            <td class='text-center nowrap'>
+                {if $vo.status eq 0}
+                {if auth("agree")}
+                <a class="layui-btn layui-btn layui-btn-xs" data-confirm="确定要同意充值吗？" data-action="{:url('agree')}" data-value="id#{$vo.id}" data-csrf="{:systoken('agree')}">同 意</a>
+                {/if}
+                {if auth("refuse")}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" data-confirm="确定要拒绝充值吗？" data-action="{:url('refuse')}" data-value="id#{$vo.id}" data-csrf="{:systoken('refuse')}">拒 绝</a>
+                {/if}
+                {else}
+                <a class="layui-btn layui-btn-danger layui-btn-xs" data-confirm="确定要删除吗？" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                {/if}
+            </td>
+
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

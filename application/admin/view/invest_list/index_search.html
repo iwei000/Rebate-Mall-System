@@ -1,0 +1,30 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-inline">
+                <input name="i_title" value="{$Think.get.i_title|default=''}" placeholder="请输入项目名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">返款时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="i_time1" value="{$Think.get.i_time1|default=''}" placeholder="请选择返款时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">会员账号</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入会员账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+        <!--<div class="layui-form-item layui-inline" style="margin-left: 20px">
+            <span class="color-desc font-s14">合计返款：<span class="color-red">{$refund}元</span></span>
+        </div>-->
+    </form>
+    <script>form.render()</script>
+</fieldset>

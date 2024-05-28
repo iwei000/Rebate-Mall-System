@@ -1,0 +1,65 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">操作账户</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入操作账户" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">提交日期</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="i_time" value="{$Think.get.i_time|default=''}" placeholder="请选择提交时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">订单号</label>
+            <div class="layui-input-inline">
+                <input name="i_orderid" value="{$Think.get.i_orderid|default=''}" placeholder="请输入订单号（模糊查找）" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">支付方式</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="i_type" lay-search>
+                    <option value="">全部方式</option>
+                    {foreach $type as $v}
+                    <!--{eq name='Think.get.i_type' value='$v.type.""'}-->
+                    <option selected value="{$v.type}">{$v.type}</option>
+                    <!--{else}-->
+                    <option value="{$v.type}">{$v.type}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">充值状态</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="i_status">
+                    {foreach [''=>'- 全部状态 -','0'=>'待审核','1'=>'已完成','2'=>'已拒绝'] as $k=>$v}
+                    <!--{eq name='Think.get.i_status' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <!--<div class="layui-form-item layui-inline" style="margin-right: 20px">
+            <span class="color-desc font-s14">充值成功：<span class="color-red">{$finished}元</span></span>
+        </div>
+        <div class="layui-form-item layui-inline" style="margin-right: 20px">
+            <span class="color-desc font-s14">充值失败：<span class="color-red">{$rejected}元</span></span>
+        </div>
+        <div class="layui-form-item layui-inline" style="margin-right: 20px">
+            <span class="color-desc font-s14">未处理：<span class="color-red">{$reviewed}元</span></span>
+        </div>-->
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+    <script>form.render()</script>
+</fieldset>

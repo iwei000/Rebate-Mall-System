@@ -1,0 +1,80 @@
+{extend name='admin@main'}
+
+{block name="content"}
+
+<form onsubmit="return false;" id="GoodsForm" data-auto="true" method="post" class='layui-form layui-card' autocomplete="off">
+
+    <div class="layui-card-body think-box-shadow padding-left-40">
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">文章分类</span>
+                <select class="layui-select" required name="type" lay-search>
+                    {foreach $class as $cate}
+                    {if isset($vo.type) and $vo.type eq $cate.id}
+                    <option selected value="{$cate.id}">{$cate.name|default=''}</option>
+                    {else}
+                    <option value="{$cate.id}">{$cate.name|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs9 relative">
+                <span class="color-green">文章名称</span>
+                <input name="title" required class="layui-input" placeholder="请输入文章名称" value="{$vo.title|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item layui-row layui-col-space15">
+            <label class="layui-col-xs3 relative">
+                <span class="color-green">是否显示</span>
+                <select class="layui-select" name="show">
+                    {foreach ['1'=>'显示','0'=>'隐藏'] as $k=>$v}
+                    <!--{eq name='$vo.show' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </label>
+            <label class="layui-col-xs9 relative">
+                <span class="color-green">关键词</span>
+                <input name="keyword" class="layui-input" placeholder="请输入文章关键词" value="{$vo.keyword|default=''}">
+            </label>
+        </div>
+
+        <div class="layui-form-item block">
+            <span class="label-required-prev color-green">文章内容</span>
+            <textarea name="content">{$vo.content|default=''|raw}</textarea>
+        </div>
+
+        <div class="layui-form-item text-center">
+            {notempty name='vo.id'}<input type="hidden" name="id" value="{$vo.id}">{/notempty}
+            <button class="layui-btn layui-btn-danger" ng-click="hsitoryBack()" type="button">取消编辑</button>
+            <button class="layui-btn" type="submit">保存文章</button>
+        </div>
+
+    </div>
+</form>
+{/block}
+
+{block name='script'}
+<script>
+    window.form.render();
+    require(['ckeditor', 'angular'], function () {
+        window.createEditor('[name="content"]', {height: 500});
+        var app = angular.module("GoodsForm", []).run(callback);
+        angular.bootstrap(document.getElementById(app.name), [app.name]);
+
+        function callback($rootScope) {
+            $rootScope.hsitoryBack = function () {
+                $.msg.confirm('确定要取消编辑吗？', function (index) {
+                    history.back(), $.msg.close(index);
+                });
+            };
+        }
+
+    })
+</script>
+{/block}

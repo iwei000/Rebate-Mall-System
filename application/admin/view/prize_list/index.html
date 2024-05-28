@@ -1,0 +1,69 @@
+{extend name='admin@main'}
+{block name="button"}
+{if auth("admin/shop_order/remove")}
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" class='layui-btn layui-btn-sm layui-btn-primary'>删除记录</button>
+{/if}
+{/block}
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='prize_list/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='list-table-check-td think-checkbox'>
+                <input data-auto-none data-check-target='.list-check-box' type='checkbox'>
+            </th>
+            <th class='text-center nowrap'>编号</th>
+            <th class='text-center nowrap'>会员ID</th>
+            <th class="text-center nowrap">用户名</th>
+            <th class="text-center nowrap">奖品类型</th>
+            <th class="text-center nowrap">奖品名称</th>
+            <th class="text-center nowrap">抽奖日期</th>
+            <th class="text-center nowrap">操作</th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='list-table-check-td think-checkbox'>
+                <input class="list-check-box" value='{$vo.id}' type='checkbox'>
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.id|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.uid|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.phone|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {if $vo.type == 1}
+                <span class="color-green">现金</span>
+                {/if}
+                {if $vo.type == 2}
+                <span class="color-green">实物</span>
+                {/if}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.name|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {$vo.time|default='--'}
+            </td>
+            <td class='text-center nowrap'>
+                {if auth("admin/shop_order/remove")}
+                <a class="layui-btn layui-btn-sm layui-btn-danger" data-confirm="确定要删除数据吗?" data-action="{:url('remove')}" data-value="id#{$vo.id}" data-csrf="{:systoken('remove')}">删 除</a>
+                {else}
+                <a data-tips-text="您没有删除项目的权限哦！" class="layui-btn layui-btn-sm layui-btn-primary layui-disabled">删 除</a>
+                {/if}
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

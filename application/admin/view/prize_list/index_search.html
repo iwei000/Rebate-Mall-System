@@ -1,0 +1,35 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">用户名</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入用户名" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">兑换类型</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="i_type">
+                    {foreach [''=>'所有类型','1'=>'现金','2'=>'实物'] as $k=>$v}
+                    <!--{eq name='Think.get.i_type' value='$k.""'}-->
+                    <option selected value="{$k}">{$v}</option>
+                    <!--{else}-->
+                    <option value="{$k}">{$v}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">抽奖日期</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="i_time" value="{$Think.get.i_time|default=''}" placeholder="请选择抽奖日期" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+    <script>form.render()</script>
+</fieldset>

@@ -1,0 +1,43 @@
+{extend name='admin@main'}
+
+{block name="content"}
+<div class="think-box-shadow">
+    {include file='invest_list/index_search'}
+    <table class="layui-table margin-top-10" lay-skin="line">
+        {notempty name='list'}
+        <thead>
+        <tr>
+            <th class='text-left nowrap' width="40%">投资信息</th>
+            <th class='text-left nowrap' width="15%">投资人</th>
+            <th class='text-left nowrap' width="15%">投资数据</th>
+            <th class="text-left nowrap" width="15%">投资时间</th>
+        </tr>
+        </thead>
+        {/notempty}
+        <tbody>
+        {foreach $list as $key=>$vo}
+        <tr>
+            <td class='text-left' style="max-width: 150px;overflow: hidden">
+                项目名称：{$vo.title|default='--'}<br>
+                返款编号：{$vo.id|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                投资人ID：{$vo.uid|default='--'}<br>
+                投资人姓名：{$vo.name|default='--'}<br>
+                投资人电话：{$vo.phone|default='--'}<br>
+            </td>
+            <td class='text-left nowrap'>
+                预计返款金额：{$vo.pay1|default='--'} 元<br>
+                实际返款金额：{$vo.pay2|default='--'} 元<br>
+            </td>
+            <td class='text-left nowrap'>
+                预计返款：{$vo.time1|default='--'}<br>
+                实际返款：{$vo.time2|default='--'}<br>
+            </td>
+        </tr>
+        {/foreach}
+        </tbody>
+    </table>
+    {empty name='list'}<span class="notdata">没有记录哦</span>{else}{$pagehtml|raw|default=''}{/empty}
+</div>
+{/block}

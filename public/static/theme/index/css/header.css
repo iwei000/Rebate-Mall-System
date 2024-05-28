@@ -1,0 +1,19 @@
+.header { padding: .4rem .3rem; background-color: #4f5ffa; display: -webkit-flex; display: flex;background: #4f5ffa;height:5px}
+.header .left { line-height: 0; padding-right: .1rem;}
+.header .left .icon-arrow-left { font-size: .5rem; line-height: .1rem; color: #fff!important;}
+.header .htitle {/*margin: 0 auto;*/ font-size: .25rem; line-height: 0.5; color: #ffffff; }
+@font-face {
+  font-family: "PingFangSC-Regular";
+  src: url("../../font/PingFangSC-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+html,body { width: 100%; height: 100%; padding: 0; margin: 0; font-size: 0; font-family: "微软雅黑";}
+p { padding: 0; margin: 0;}
+a { text-decoration: none;}
+.confirm{
+    background-color: #4f5ffb!important;
+}
+.input-group span{
+    color: #4f5ffb!important;
+}

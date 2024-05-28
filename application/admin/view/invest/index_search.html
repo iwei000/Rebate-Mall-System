@@ -1,0 +1,49 @@
+<fieldset>
+    <legend>条件搜索</legend>
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">项目名称</label>
+            <div class="layui-input-inline">
+                <input name="i_title" value="{$Think.get.i_title|default=''}" placeholder="请输入项目名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">投资时间</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="i_time" value="{$Think.get.i_time|default=''}" placeholder="请选择投资时间" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">会员账号</label>
+            <div class="layui-input-inline">
+                <input name="u_phone" value="{$Think.get.u_phone|default=''}" placeholder="请输入会员账号" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">还款方式</label>
+            <div class="layui-input-inline">
+                <select class="layui-select" name="i_type1" lay-search>
+                    <option value="">全部方式</option>
+                    {foreach $tlist as $v}
+                    <!--{eq name='Think.get.i_type1' value='$v.id.""'}-->
+                    <option selected value="{$v.id}">{$v.name}</option>
+                    <!--{else}-->
+                    <option value="{$v.id}">{$v.name}</option>
+                    <!--{/eq}-->
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <br>
+        <div class="layui-form-item layui-inline" style="margin-right: 20px">
+            <span class="color-desc font-s14">已收益（总）：<span class="color-red">{$profit}元</span></span>
+        </div>
+        <div class="layui-form-item layui-inline" style="margin-right: 20px">
+            <span class="color-desc font-s14">未收益（总）：<span class="color-red">{$un_profit}元</span></span>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+        </div>
+    </form>
+    <script>form.render()</script>
+</fieldset>
