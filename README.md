@@ -8,5 +8,29 @@ The user interface on the frontend is developed with Vue, providing faster and s
 
 Demo address to be accessed via mobile browser: Coming soon...
 
+## Server Environment
+	•	LINUX system CentOS 7+
+	•	PHP 7.2+
+	•	MYSQL 5.6+
+	•	Nginx 1.6+
+
+## Admin Panel URL
+http://yourdomain.com/admin
+	•	Account: admin
+	•	Password: a123456
+
+## Frontend URL
+http://yourdomain.com
+	•	Test Account: 13800138000
+	•	Test Password: 123456
+
+## Installation Process
+	1.	Upload the website program files to the server and unzip, import the database file.
+	2.	Configure the database: Open the file /config/database.php and modify the relevant settings (as shown in the image).
+	3.	Add two cron jobs: automatic dividend settlement and automatic sales growth.
+ 
+	•	Automatic Dividend Settlement (http://yourdomain.com/index/index/item_crontab) with a frequency of once per minute.
+	•	Automatic Sales Growth (http://yourdomain.com/index/index/item_auto_sale) with a frequency of once per minute.
+
 ## Licensing
 This project is licensed under the MIT open-source license. The complete licensing information is available in the [LICENSE](https://github.com/iwei000/Rebate-Mall-System/blob/main/LICENSE) file.
