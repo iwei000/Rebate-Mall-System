@@ -5,16 +5,17 @@ import router from '@/router'
 //import {Notify} from 'vant'
 import {Dialog} from 'vant';
 
-let loadingCount = 0;
+let loadingCount = 0;  // 确保loadingCount变量在合适的作用域内被初始化和声明
 
 export const showLoading = () => {
-    if (loadingCount <= 0) {
+    // 仅在loadingCount为0或更小时启动加载指示，这避免了重复触发loading状态
+    if (loadingCount === 0) {
         Toast.loading({
-            // mask: true,
-            duration: 20000
-        })
+            // mask: true,  // 如果需要阻止用户操作可以取消此行注释
+            duration: 20000  // 设置加载提示持续的时间（20秒）
+        });
     }
-    loadingCount++
+    loadingCount++;  // 增加loading计数，跟踪当前活跃的loading请求数
 }
 
 export const hideLoading = () => {
