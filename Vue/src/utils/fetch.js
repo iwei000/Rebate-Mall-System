@@ -19,10 +19,14 @@ export const showLoading = () => {
 }
 
 export const hideLoading = () => {
-    loadingCount--;
+    if (loadingCount > 0) {
+        loadingCount--;  // 仅当loadingCount大于0时减少计数
+    }
+
+    // 当没有活跃的加载请求时，清除加载提示
     if (loadingCount <= 0) {
-        Toast.clear()
-        loadingCount = 0
+        Toast.clear();  // 清除加载提示
+        loadingCount = 0;  // 确保loadingCount不会变成负数
     }
 };
 
