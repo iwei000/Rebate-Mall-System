@@ -1,34 +1,37 @@
 <?php
-// +----------------------------------------------------------------------
-// | ThinkPHP [ WE CAN DO IT JUST THINK ]
-// +----------------------------------------------------------------------
-// | Copyright (c) 2006~2018 http://thinkphp.cn All rights reserved.
-// +----------------------------------------------------------------------
-// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
-// +----------------------------------------------------------------------
-// | Author: liu21st <liu21st@gmail.com>
-// +----------------------------------------------------------------------
+
+/**
+ * ThinkPHP initialization script
+ *
+ * ThinkPHP is a PHP framework that simplifies web application development.
+ * This script initializes the framework by setting up class loading, error handling,
+ * and essential configurations.
+ *
+ * @package ThinkPHP
+ * @author liu21st <liu21st@gmail.com>
+ * @license http://www.apache.org/licenses/LICENSE-2.0 Apache 2.0 License
+ */
+
 namespace think;
 
-// 载入Loader类
+// Load the Loader class
 require __DIR__ . '/library/think/Loader.php';
 
-// 注册自动加载
+// Register class autoloading
 Loader::register();
 
-// 注册错误和异常处理机制
+// Register error and exception handling
 Error::register();
 
-// 实现日志接口
-if (interface_exists('Psr\Log\LoggerInterface')) {
+// Define the LoggerInterface if it's not already defined
+if (!interface_exists('Psr\Log\LoggerInterface')) {
     interface LoggerInterface extends \Psr\Log\LoggerInterface
-    {}
-} else {
-    interface LoggerInterface
-    {}
+    {
+        // Interface body can be extended with custom methods if needed
+    }
 }
 
-// 注册类库别名
+// Register class aliases for shorter code and better readability
 Loader::addClassAlias([
     'App'      => facade\App::class,
     'Build'    => facade\Build::class,
