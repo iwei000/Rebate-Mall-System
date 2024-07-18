@@ -93,7 +93,7 @@
                 is_show_down_app: true,
                 is_show_footer: true,
                 sync_timer: null,
-                app: {},
+                app: {}
             }
         },
 		updated(){
