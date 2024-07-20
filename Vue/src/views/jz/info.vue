@@ -47,9 +47,9 @@
             <div class="basic_btn down_btn" @click="downLoad" v-clipboard="() => data.content" v-clipboard:success="copy">一键保存</div>
             <div class="tips_mask mask" v-show="mask_show">
                 <div class="tips_inner">
-                    <p>1、复制文案内容</p>
-                    <p>2、保存海报</p>
-                    <div class="basic_btn sure_btn" @click="mask_show = false">好的</div>
+                    <p>复制文案内容</p>
+                    <p>保存海报</p>
+                    <div class="basic_btn sure_btn" @click="mask_show = false">确认</div>
                 </div>
             </div>
         </div>
