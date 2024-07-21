@@ -74,131 +74,108 @@
 </template>
 
 <script>
-    const BIG_MONTH = [1, 3, 5, 7, 8, 10, 12]
-    const SMALL_MONTH = [4, 6, 9, 11]
+import Vue from 'vue';
+import SignProcess from '../../components/signProcess';
+import Fetch from '../../utils/fetch';
+import { Dialog } from 'vant';
 
-    function getDaysFromCurrentMonth(year, month) {
-        if (BIG_MONTH.indexOf(month) !== -1) {
-            return 31
-        }
+export default {
+    name: "jz",
+    components: {
+        SignProcess
+    },
+    data() {
+        return {
+            signData: {},
+            runningDays: 0,
+            isSigned: false,
+            placeholderEleCount: 0,
+            allDays: [],
+            rewardSetList: [],
+            awardTips: '',
+            awardNum: '',
+            signShow: false,
+            today: new Date()
+        };
+    },
+    created() {
+        this.$parent.footer('user', false);
+    },
+    mounted() {
+        this.init();
+    },
+    computed: {
+        title() {
+            return `${this.today.getFullYear()}年${this.today.getMonth() + 1}月`;
+        },
+        monthDays() {
+            return this.getDaysFromCurrentMonth(this.today.getFullYear(), this.today.getMonth() + 1);
+        },
+    },
+    methods: {
+        getDaysFromCurrentMonth(year, month) {
+            const bigMonth = [1, 3, 5, 7, 8, 10, 12];
+            const smallMonth = [4, 6, 9, 11];
 
-        if (SMALL_MONTH.indexOf(month) !== -1) {
-            return 30
-        }
-
-        if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) {
-            return 29
-        }
-
-        return 28
-    }
-
-    function getWeekdayOfMonth(year, month) {
-        const fistDate = new Date(year, month - 1, 1)
-        return fistDate.getDay()
-    }
-
-    function isObject(obj) {
-        return Object.prototype.toString.call(obj) === '[object Object]'
-    }
-    function getRewardSetList(obj) {
-    	if (isObject(obj)) {
-            return Object.keys(obj).map(key => {
-                return {
-                    value: obj[key].value,
-                    type: obj[key].type,
-                    day: key,
-                    id:obj[key].id,
-                    getstatus:obj[key].getstatus
-                }
+            if (bigMonth.includes(month)) return 31;
+            if (smallMonth.includes(month)) return 30;
+            if ((year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0)) return 29;
+            return 28;
+        },
+        getWeekdayOfMonth(year, month) {
+            return new Date(year, month - 1, 1).getDay();
+        },
+        isObject(obj) {
+            return Object.prototype.toString.call(obj) === '[object Object]';
+        },
+        getRewardSetList(obj) {
+            return this.isObject(obj) ? Object.keys(obj).map(key => ({
+                ...obj[key],
+                day: key,
+            })) : [];
+        },
+        signBtn() {
+            Fetch('/user/sign').then(r => {
+                this.updateSignState(r.data);
             })
-    	}
-    	
-    	return []
-    }
-
-    import Vue from 'vue';
-    import SignProcess from '../../components/signProcess'
-    import Fetch from '../../utils/fetch';
-    import {
-        Dialog
-    } from 'vant';
-
-    export default {
-        name: "jz",
-        components: {
-            SignProcess
         },
-        data() {
-            return {
-                data: {},
-                signData: {},
-                running_days:0,
-                show_down: false,
-                title: '',
-                isSign:false,
-                placeholderEleCount: 0,
-                allDays: 0,
-                reward_set_list: [],
-                award_tips: '',
-                award_num: '',
-                signShow: false,
-            };
-        },
-        created() {
-            this.$parent.footer('user', false);
-        },
-        mounted() {
+        updateSignState(data) {
+            this.signShow = true;
+            this.runningDays = data.days;
+            this.isSigned = true;
+            this.awardTips = data.reward_type === 1 ? '红包' : '代金券';
+            this.awardNum = data.reward_num;
             this.init();
         },
-        methods: {
-            signBtn() {
-                Fetch('/user/sign').then(r=>{
-                    this.signShow = true;
-                    this.running_days = r.data.days;
-                    this.isSign = true;
-                    this.award_tips = r.data.reward_type == 1 ? '红包': '代金券';
-                    this.award_num = r.data.reward_num;
-                    this.init();
-                })
-            },
-            init() {
-                
-                Fetch('/user/sign_log').then(r=>{
-                    this.allDays = r.data.date_list;
-                })
-                
-                // 累计奖励列表
-                Fetch('/user/sign_reward').then(r=>{
-                    var reward_set = {};
-                    r.data.reward_list.forEach(item=>{
-                        reward_set[item.days] = {
-                            type: item.reward_type == 2? 'djq': 'hb',
-                            value: item.reward_num,
-                            getstatus: item.can_draw,
-                            id: item.id
-                        }
-                    })
-                    this.running_days = r.data.signin_days
-					this.isSign = r.data.isSign
-                    this.reward_set_list = getRewardSetList(reward_set)
-                    this.signData = r.data.today_reward
-                })
-                
-                
-                const today = new Date()
-                const year = today.getFullYear()
-                const month = today.getMonth() + 1
-
-                // const days = getDaysFromCurrentMonth(year, month)
-                this.title = `${year}年${month}月`
-                // this.allDays = getDaysFromCurrentMonth(year, month)
-                this.placeholderEleCount = getWeekdayOfMonth(year, month);
-
-                
-            }
+        init() {
+            this.fetchSignLog();
+            this.fetchSignReward();
+            this.placeholderEleCount = this.getWeekdayOfMonth(this.today.getFullYear(), this.today.getMonth() + 1);
+        },
+        fetchSignLog() {
+            Fetch('/user/sign_log').then(r => {
+                this.allDays = r.data.date_list;
+            })
+        },
+        fetchSignReward() {
+            Fetch('/user/sign_reward').then(r => {
+                const rewardSet = r.data.reward_list.reduce((acc, item) => {
+                    acc[item.days] = {
+                        type: item.reward_type === 2 ? 'djq' : 'hb',
+                        value: item.reward_num,
+                        getstatus: item.can_draw,
+                        id: item.id
+                    };
+                    return acc;
+                }, {});
+                this.runningDays = r.data.signin_days;
+                this.isSigned = r.data.isSign;
+                this.rewardSetList = this.getRewardSetList(rewardSet);
+                this.signData = r.data.today_reward;
+            })
         }
-    };
+    }
+};
 </script>
 
 <style lang="less" scoped>
