@@ -9,32 +9,37 @@
 </template>
 
 <script>
-	import Fetch from '../../utils/fetch'
-	import bsHeader from '../../components/bsHeader.vue'
-	export default {
-		name: "jz",
-		components: {
-			bsHeader
-		},
-		data() {
-			return {
-				data: {}
-			};
-		},
-		created() {
-			this.$parent.footer('user', false);
-		},
-		mounted() {
-			this.start();
-		},
-		methods: {
-			start() {
-				Fetch('/index/share').then((r) => {
-					this.data = r.data;
-				});
-			},
-		}
-	};
+import Fetch from '../../utils/fetch';
+import bsHeader from '../../components/bsHeader.vue';
+
+export default {
+    name: "jz",
+    components: {
+        bsHeader
+    },
+    data() {
+        return {
+            data: {}
+        };
+    },
+    mounted() {
+        this.start();
+    },
+    methods: {
+        async start() {
+            try {
+                const { data } = await Fetch('/index/share');
+                this.data = data;
+            } catch (error) {
+                console.error("Failed to fetch data", error);
+                this.handleError();
+            }
+        },
+        handleError() {
+            // Handle error (e.g., show an error message)
+        }
+    }
+};
 </script>
 
 <style lang="less" scoped>
