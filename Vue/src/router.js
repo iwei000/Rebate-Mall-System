@@ -332,6 +332,6 @@ export default new Router({
 		    name: "cart",
 		    component: () =>
 		        import(/* webpackChunkName: "home" */ "./views/item/cart.vue")
-		},
+		}
     ]
 });

@@ -52,7 +52,7 @@ export default {
 		margin: 10px auto 0 auto;
 		img{
 			width: 100%;
-			height: 138px;
+			height: 138px
 		}
 		.title{
 			padding: 0 11px;

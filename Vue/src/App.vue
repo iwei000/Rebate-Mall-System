@@ -33,9 +33,7 @@
         :class="show_icon_type === 'item' ? 'footer_item_active' : ''"
       >
         <span class="footer_icon footer_icon_task" />
-        <p class="footer_info">
-          分类
-        </p>
+        <p class="footer_info">分类</p>
       </router-link>
       <router-link
         to="/cart"
