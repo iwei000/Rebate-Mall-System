@@ -63,130 +63,105 @@
 </template>
 
 <script>
-    import Vue from 'vue';
-    import Fetch from '../../utils/fetch';
-    import bsHeader from '../../components/bsHeader.vue'
-    import Clipboard from 'v-clipboard';
-    import {
-        Popup
-    } from 'vant';
+   import Vue from 'vue';
+import Fetch from '../../utils/fetch';
+import bsHeader from '../../components/bsHeader.vue';
+import Clipboard from 'v-clipboard';
+import { Popup, Overlay, Uploader, Button } from 'vant';
+import axios from 'axios';
 
-    Vue.use(Popup).use(Clipboard);
-    import {
-        Overlay
-    } from 'vant';
-    import {
-        Uploader
-    } from 'vant';
-    import {
-        Button
-    } from 'vant';
-    import axios from 'axios'
+Vue.use(Popup).use(Clipboard).use(Overlay).use(Uploader).use(Button);
 
-    Vue.use(Overlay).use(Uploader).use(Button);
+export default {
+    name: "jz",
+    data() {
+        return {
+            data: {},
+            mask_show: false,
+            ex_show: false,
+            show_down: false,
+            timer: null
+        };
+    },
+    components: {
+        bsHeader
+    },
+    created() {
+        this.$parent.footer('jz', false);
+    },
+    mounted() {
+        this.start();
+    },
+    methods: {
+        downLoad() {
+            this.mask_show = true;
+            const url = window.location.origin + this.data.down_image;
+            this.downloadImage(this.data.down_image, 'share');
+        },
+        downloadImage(imgsrc, name) {
+            const image = new Image();
+            image.setAttribute("crossOrigin", "anonymous");
+            image.onload = () => {
+                const canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+                const context = canvas.getContext("2d");
+                context.drawImage(image, 0, 0, image.width, image.height);
+                const url = canvas.toDataURL("image/png");
 
-    export default {
-        name: "jz",
-        data() {
-            return {
-                data: {},
-                mask_show: false,
-                ex_show: false,
-                show_down: false,
-                timer: null
+                const a = document.createElement("a");
+                const event = new MouseEvent("click");
+                a.download = name || "photo";
+                a.href = url;
+                a.dispatchEvent(event);
             };
+            image.src = imgsrc;
         },
-        components: {
-            bsHeader
+        copy() {
+            this.$toast({
+                background: '#07c160',
+                message: '复制成功'
+            });
         },
-        created() {
-            this.$parent.footer('jz', false);
+        showDown() {
+            this.show_down = true;
         },
-        mounted() {
-            this.timer = null;
-            this.start();
+        downLoadImg() {
+            this.mask_show = true;
         },
-        methods: {
-            downLoad() {
-                this.mask_show = true;
-                var that = this;
-                var local = window.location.origin;
-                var url = local + this.data.down_image;
-                
-                /* jsBridge.saveImageToAlbum(url, function(succ) {
-                    that.$toast(succ ? "保存成功" : "保存失败：下载失败或没有相册使用权限");
-                }); */
-                this.downloadIamge(this.data.down_image, 'share')
-            },
-            downloadIamge(imgsrc, name) {
-                var image = new Image();
-                image.setAttribute("crossOrigin", "anonymous");
-                image.onload = function() {
-                    var canvas = document.createElement("canvas");
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-                    var context = canvas.getContext("2d");
-                    context.drawImage(image, 0, 0, image.width, image.height);
-                    var url = canvas.toDataURL("image/png");
-
-                    var a = document.createElement("a");
-                    var event = new MouseEvent("click");
-                    a.download = name || "photo";
-                    a.href = url;
-                    a.dispatchEvent(event);
-                };
-                image.src = imgsrc;
-            },
-            copy() {
-                this.$toast({
-                    background: '#07c160',
-                    message: '复制成功'
-                })
-            },
-            showDown() {
-                this.show_down = true;
-            },
-            downLoadImg() {
-                this.mask_show = true;
-
-            },
-            start() {
-                Fetch('/index/share_view', {
-                    id: this.$router.history.current.params.id
-                }).then((r) => {
-                    this.data = r.data;
-                });
-            },
-            onOversize(file) {
-                this.$toast('请上传2M以内的图片');
-            },
-            beforeRead(file) {
-                if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
-                    this.$toast('只支持jpg,png图片上传');
-                    return false;
-                }
-                return true;
-            },
-            afterRead(file) {
-
-                let formData = new FormData();
-                formData.append('file', file.file);
-                formData.append('id', this.$router.history.current.params.id);
-				formData.append('token', localStorage.getItem('token'));
-                axios.post("http://shop.test/api/index/share_upload", formData).then((r) => {
-                    if (r.data.code === 1) {
-                        this.$toast('上传成功');
-                    } else {
-                        if (r.data.info) {
-                            this.$toast(r.data.info);
-                        } else {
-                            this.$toast('上传失败');
-                        }
-                    }
-                });
+        start() {
+            Fetch('/index/share_view', {
+                id: this.$router.history.current.params.id
+            }).then((r) => {
+                this.data = r.data;
+            });
+        },
+        onOversize() {
+            this.$toast('请上传2M以内的图片');
+        },
+        beforeRead(file) {
+            if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+                this.$toast('只支持jpg,png图片上传');
+                return false;
             }
+            return true;
+        },
+        afterRead(file) {
+            const formData = new FormData();
+            formData.append('file', file.file);
+            formData.append('id', this.$router.history.current.params.id);
+            formData.append('token', localStorage.getItem('token'));
+
+            axios.post("http://shop.test/api/index/share_upload", formData).then((r) => {
+                if (r.data.code === 1) {
+                    this.$toast('上传成功');
+                } else {
+                    this.$toast(r.data.info || '上传失败');
+                }
+            });
         }
-    };
+    }
+};
 </script>
 
 <style lang="less" scoped>
