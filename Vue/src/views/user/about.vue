@@ -13,32 +13,37 @@
 
 <script>
 	import Fetch from '../../utils/fetch';
-	import bsHeader from '../../components/bsHeader.vue'
-	export default {
-		name: "login",
-		components: {
-			bsHeader
-		},
-		data() {
-			return {
-				show_icon_type: 'about',
-				data: {},
-			};
-		},
-		created() {
-			this.$parent.footer('user',false);
-		},
-		mounted() {
-			this.start();
-		},
-		methods: {
-			start() {
-				Fetch('/index/about').then((r) => {
-					this.data = r.data;
-				});
-			},
-		}
-	};
+import bsHeader from '../../components/bsHeader.vue';
+
+export default {
+  name: 'login',
+  components: {
+    bsHeader,
+  },
+  data() {
+    return {
+      showIconType: 'about',
+      data: {},
+    };
+  },
+  created() {
+    this.$parent.footer('user', false);
+  },
+  mounted() {
+    this.fetchData();
+  },
+  methods: {
+    fetchData() {
+      Fetch('/index/about')
+        .then(response => {
+          this.data = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
