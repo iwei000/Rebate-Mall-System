@@ -54,18 +54,31 @@ class Index extends Controller
     {
         $now = time();
         $invest_list = Db::name("LcInvestList")->where("UNIX_TIMESTAMP(time1) <= $now AND status = '0'")->select();
-        if (empty($invest_list)) exit('暂无返息计划');
+        
+        if (empty($invest_list)) {
+            exit('暂无返息计划');
+        }
+    
         foreach ($invest_list as $k => $v) {
             $max = Db::name("LcInvestList")->field('id')->where(['uid' => $v['uid'], 'iid' => $v['iid']])->order('num desc')->find();
-            $is_last = false;
-            if ($v['id'] == $max['id']) $is_last = true;
-            $data = array('time2' => date('Y-m-d H:i:s'), 'pay2' => $v['pay1'], 'status' => 1);
+            $is_last = ($v['id'] == $max['id']);
+            
+            $data = [
+                'time2' => date('Y-m-d H:i:s'),
+                'pay2' => $v['pay1'],
+                'status' => 1
+            ];
+            
             if (Db::name("LcInvestList")->where(['id' => $v['id']])->update($data)) {
                 if ($v['pay1'] > 0) {
                     if ($is_last) {
                         $discount_money = Db::name('LcInvest')->where(['id' => $v['iid']])->value('discount');
-                        if ($discount_money > 0) $v['pay1'] = $v['pay1'] - $discount_money;
-                        if ($v['pay1'] <= 0) $v['pay1'] = 0;
+                        if ($discount_money > 0) {
+                            $v['pay1'] -= $discount_money;
+                        }
+                        if ($v['pay1'] < 0) {
+                            $v['pay1'] = 0;
+                        }
                         Db::name('LcInvest')->where(['id' => $v['iid']])->update(['status' => 1, 'time2' => date("Y-m-d H:i:s")]);
                     }
                     addFinance($v['uid'], $v['pay1'], 1, $v['title'] . ' 第' . $v['num'] . '期收益' . $v['pay1'] . '元');
