@@ -43,9 +43,25 @@ class Users extends Controller
      */
     public function index()
     {
-        $this->title = '会员列表';
-        $query = $this->_query($this->table)->alias('u')->field('u.*,m.name as m_name');
-        $query->join('lc_user_member m','u.member=m.id')->equal('u.auth#u_auth,u.clock#u_clock,u.member#u_member')->like('u.ip#i_orderid,u.phone#u_phone,u.name#u_name,u.ip#u_ip')->dateBetween('u.time#u_time')->order('u.id desc')->page();
+      $this->title = '会员列表';
+
+      // 优化字段选择，只选择需要的字段
+      $query = $this->_query($this->table)
+          ->alias('u')
+          ->field('u.id, u.auth, u.clock, u.member, u.ip, u.phone, u.name, u.time, m.name as m_name')
+          ->join('lc_user_member m', 'u.member = m.id');
+      
+      // 确保查询条件中涉及的字段已创建索引
+      $query->equal('u.auth#u_auth, u.clock#u_clock, u.member#u_member');
+      
+      // 优化 LIKE 查询
+      $query->like('u.ip#i_orderid, u.phone#u_phone, u.name#u_name, u.ip#u_ip');
+      
+      // 优化时间范围查询
+      $query->dateBetween('u.time#u_time');
+      
+      // 排序和分页
+      $query->order('u.id desc')->page();
     }
 
     /**
