@@ -15,8 +15,15 @@
 
 /* 定义会话路径 */
 $_path_ = env('runtime_path') . 'sess' . DIRECTORY_SEPARATOR;
-file_exists($_path_) || mkdir($_path_, 0755, true);
-$_name_ = 's' . substr(md5(__DIR__), -8);
+if (!file_exists($_path_)) {
+    if (!mkdir($_path_, 0755, true)) {
+        throw new RuntimeException("Failed to create session directory at {$_path_}");
+    }
+}
+
+/* 生成安全的会话名称 */
+$_name_ = 's' . substr(md5(__DIR__), -8); // 或者使用更强的哈希函数
+// $_name_ = 's' . substr(hash('sha256', __DIR__), -8);
 
 /* 配置会话参数 */
 return [
